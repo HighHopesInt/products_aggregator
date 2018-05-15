@@ -1,0 +1,6 @@
+.idea
+*.pyc
+db.sqlite3
+/static/admin/
+/venv/
+/stuff/
