@@ -11,6 +11,18 @@ Gender = (
 )
 
 
+class CustomModel(models.Model):
+    """Common settings. """
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.name
+
+    name = models.CharField(max_length=50, unique=True)
+
+
 class Category(MPTTModel):
 
     class Meta:
@@ -69,18 +81,19 @@ class Product(models.Model):
     free_shipping = models.BooleanField()
     available = models.BooleanField()
 
-    price = models.DecimalField(max_digits=16, decimal_places=2, blank=True)
+    price = models.DecimalField(max_digits=16, decimal_places=2,
+                                null=True, blank=True)
     sale_price = models.DecimalField(max_digits=16, decimal_places=2,
-                                     blank=True)
+                                     null=True, blank=True)
 
 
-class Retailer(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+class Retailer(CustomModel):
+    pass
 
 
-class Brand(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+class Brand(CustomModel):
+    pass
 
 
-class Color(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+class Color(CustomModel):
+    pass
