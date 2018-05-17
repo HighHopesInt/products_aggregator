@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+{% block content %}
+
+<h1>Catalog</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+
+        <ul class="root">
+        {% recursetree nodes %}
+            <li>
+                <a href="{% url 'catalog_filter' filter=node.name %}">{{ node.name }}</a>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                        <li>
+                            <a href="{% url 'catalog_filter' filter=node.name %}">
+                            All
+                            </a>
+                        </li>
+                    </ul>
+                </a>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+        </ul>
+
+    </div>
+    <div class="col-md-8">
+        <ul>
+        {% for product in product_list %}
+            <li>{{ product }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}      
