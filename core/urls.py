@@ -14,8 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+
+from apps.main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', views.catalog_tree, name='index'),
+    re_path(r'^catalog/(?P<filter>.+)/$', views.catalog_tree,
+            name='catalog_filter'),
 ]
+
+
