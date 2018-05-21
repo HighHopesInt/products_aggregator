@@ -5,7 +5,7 @@ from _apps.main.models import Category, Product
 # Create your views here.
 
 
-class CatalogTree(ListView):
+class ProductList(ListView):
     template_name = 'catalog.html'
 
     def get_queryset(self):
@@ -24,10 +24,11 @@ class CatalogTree(ListView):
 
         return product_list
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(CatalogTree, self).get_context_data(**kwargs)
-        context['nodes'] = Category.objects.all()
-        return context
+    # it works, but moved to context processors
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super(ProductList, self).get_context_data(**kwargs)
+    #     context['category_tree'] = Category.objects.all()
+    #     return context
 
 
 def catalog_tree(request, filter=None):

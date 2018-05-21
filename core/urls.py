@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('', views.catalog_tree, name='index'),
     re_path(r'^catalog/(?P<filter>.+)/$',
-            views.CatalogTree.as_view(),
+            views.ProductList.as_view(),
             name='catalog_filter'),
 ]
 

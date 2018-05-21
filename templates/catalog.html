@@ -9,7 +9,7 @@
     <div class="col-md-4">
 
         <ul class="root">
-        {% recursetree nodes %}
+        {% recursetree category_tree %}
             <li>
                 <a href="{% url 'catalog_filter' filter=node.name %}">{{ node.name }}</a>
                 {% if not node.is_leaf_node %}
