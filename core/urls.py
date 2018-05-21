@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from apps.main import views
+from _apps.main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', views.catalog_tree, name='index'),
-    re_path(r'^catalog/(?P<filter>.+)/$', views.catalog_tree,
+    re_path(r'^catalog/(?P<filter>.+)/$',
+            views.catalog_tree,
+            # views.CatalogTree.as_view(),
             name='catalog_filter'),
 ]
 

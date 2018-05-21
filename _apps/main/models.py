@@ -10,8 +10,13 @@ Gender = (
     ('women', 'Women'),
 )
 
+Status = (
+    ('SUCCESS', 'Success'),
+    ('ERROR', 'Error'),
+)
 
-class CustomModel(models.Model):
+
+class BaseAttributesModel(models.Model):
     """Common settings. """
 
     class Meta:
@@ -42,7 +47,7 @@ class Category(MPTTModel):
 
 
 @receiver(pre_save, sender=Category)
-def set_full_name(sender, instance, *args, **kwargs):
+def category_set_full_name(sender, instance, *args, **kwargs):
     if not instance.full_name:
         instance.full_name = instance.name
 
@@ -87,13 +92,25 @@ class Product(models.Model):
                                      null=True, blank=True)
 
 
-class Retailer(CustomModel):
+class Retailer(BaseAttributesModel):
     pass
 
 
-class Brand(CustomModel):
+class Brand(BaseAttributesModel):
     pass
 
 
-class Color(CustomModel):
+class Color(BaseAttributesModel):
     pass
+
+
+class UploadedFiles(BaseAttributesModel):
+    class Meta:
+        verbose_name_plural = 'Uploaded files'
+
+    name = models.CharField(max_length=256, unique=True)
+    file = models.FileField(upload_to='uploaded_files')
+
+    status = models.CharField(max_length=20, default='', blank=True,
+                              choices=Status)
+    log = models.TextField(default='', blank=True)
