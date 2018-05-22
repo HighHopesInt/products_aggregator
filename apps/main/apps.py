@@ -6,8 +6,8 @@ class MainConfig(AppConfig):
     name = 'apps.main'
 
     def ready(self):
-        from .models import UploadedFiles
+        from .models import UploadedFile
         from .signals import dummy, parse_csv_after_upload
 
         # pre_save.connect(dummy, sender=UploadedFiles)
-        post_save.connect(parse_csv_after_upload, sender=UploadedFiles)
+        post_save.connect(parse_csv_after_upload, sender=UploadedFile)

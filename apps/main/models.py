@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from mptt.models import MPTTModel, TreeForeignKey
 
 # Create your models here.
@@ -31,25 +29,22 @@ class BaseAttributesModel(models.Model):
 class Category(MPTTModel):
 
     class Meta:
+        verbose_name = 'Category'
         verbose_name_plural = 'Categories'
 
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
     def __str__(self):
-        return self.full_name
+        return self.name
 
     name = models.CharField(max_length=100, unique=True)
-    full_name = models.CharField(max_length=100, blank=True)
     parent = TreeForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True,
         related_name='children',
         db_index=True
     )
-
-
-@receiver(pre_save, sender=Category)
-def category_set_full_name(sender, instance, *args, **kwargs):
-    if not instance.full_name:
-        instance.full_name = instance.name
 
 
 class Product(models.Model):
@@ -87,9 +82,9 @@ class Product(models.Model):
     available = models.BooleanField()
 
     price = models.DecimalField(max_digits=16, decimal_places=2,
-                                null=True, blank=True)
+                                null=True, blank=True, default=0)
     sale_price = models.DecimalField(max_digits=16, decimal_places=2,
-                                     null=True, blank=True)
+                                     null=True, blank=True, default=0)
 
 
 class Retailer(BaseAttributesModel):
@@ -104,13 +99,36 @@ class Color(BaseAttributesModel):
     pass
 
 
-class UploadedFiles(BaseAttributesModel):
+class UploadedFile(BaseAttributesModel):
     class Meta:
         verbose_name_plural = 'Uploaded files'
 
-    name = models.CharField(max_length=256, unique=True)
+    NONE = "N"
+    PENDING = "P"
+    BEGIN = "B"
+    SUCCESS = "S"
+    ERROR = "E"
+    ALMOST = "A"
+
+    STATUS_CHOICES = (
+        (NONE, 'None'),
+        (PENDING, 'Pending'),
+        (BEGIN, 'Begin'),
+        (SUCCESS, 'Success'),
+        (ERROR, 'Error'),
+        (ALMOST, 'Almost')
+    )
+
+    # name = models.CharField(max_length=256, unique=True)
     file = models.FileField(upload_to='uploaded_files')
 
-    status = models.CharField(max_length=20, default='', blank=True,
-                              choices=Status)
+    status = models.CharField(max_length=20, blank=True,
+                              choices=STATUS_CHOICES, default=NONE)
     log = models.TextField(default='', blank=True)
+
+    def update_status(self, status, log=""):
+        self.status = status
+        self.log += log
+
+        fields = ['status', 'log'] if log else ['status']
+        self.save(update_fields=fields)

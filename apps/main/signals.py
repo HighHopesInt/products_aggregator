@@ -8,5 +8,4 @@ def dummy(sender, instance, created, **kwargs):
 
 def parse_csv_after_upload(sender, instance, created, **kwargs):
     if created:
-        instance.status, instance.log = parse(instance.file)
-        instance.save(update_fields=['status', 'log'])
+        parse(instance)

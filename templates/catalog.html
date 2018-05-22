@@ -31,7 +31,11 @@
     <div class="col-md-8">
         <ul>
         {% for product in product_list %}
-            <li>{{ product }}</li>
+            <li>
+                <a href="{% url 'product_detail' pk=product.id %}">
+                    {{ product }}
+                </a>
+            </li>
         {% endfor %}
         </ul>
     </div>
