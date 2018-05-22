@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 APPS = [
-    '_apps.main',
+    'apps.main',
 ]
 
 PACKAGES = [
@@ -73,7 +73,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                '_apps.main.context_processors.category_tree',
+                'apps.main.context_processors.category_tree',
             ],
         },
     },

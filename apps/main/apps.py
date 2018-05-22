@@ -3,7 +3,7 @@ from django.db.models.signals import pre_save, post_save
 
 
 class MainConfig(AppConfig):
-    name = '_apps.main'
+    name = 'apps.main'
 
     def ready(self):
         from .models import UploadedFiles

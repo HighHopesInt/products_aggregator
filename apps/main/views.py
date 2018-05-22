@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from _apps.main.models import Category, Product
+from apps.main.models import Category, Product
 
 # Create your views here.
 

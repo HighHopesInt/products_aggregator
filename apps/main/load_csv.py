@@ -17,8 +17,8 @@ import csv
 
 from django.core.exceptions import ObjectDoesNotExist
 
-import _apps.main.models as models
-from _apps.main.models import Status
+import apps.main.models as models
+from apps.main.models import Status
 
 
 def _get_category(name, parent=None):
