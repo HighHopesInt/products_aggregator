@@ -1,12 +1,14 @@
 import csv
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 
 from apps.main.models import *
 from core.celery import app
 
 
 @app.task
+@transaction.atomic
 def parse(datafile_instance_id):
 
     datafile_instance = UploadedFile.objects.get(id=datafile_instance_id)
