@@ -3,9 +3,13 @@ import csv
 from django.core.exceptions import ObjectDoesNotExist
 
 from apps.main.models import *
+from core.celery import app
 
 
-def parse(datafile_instance):
+@app.task
+def parse(datafile_instance_id):
+
+    datafile_instance = UploadedFile.objects.get(id=datafile_instance_id)
 
     datafile_instance.update_status(UploadedFile.PENDING)
 
@@ -67,14 +71,14 @@ def parse(datafile_instance):
             for i, name in enumerate(cat_fields):
                 parent = None if i == 0 else cats[i-1]
                 csv_value = row[name]
-                category = Category.objects.get_or_create(
+                category, _ = Category.objects.get_or_create(
                     name=csv_value, parent=parent)
                 cats.append(category)
 
             product.category = next(i for i in cats[::-1] if i)
 
-            product.brand = Brand.objects.get_or_create(name=row['brand'])
-            product.color = Color.objects.get_or_create(name=row['color'])
+            product.brand, _ = Brand.objects.get_or_create(name=row['brand'])
+            product.color, _ = Color.objects.get_or_create(name=row['color'])
 
             product.size = row['size']
             product.material = row['material']
@@ -85,7 +89,7 @@ def parse(datafile_instance):
             product.title = row['title']
             product.meta_title = row['meta title']
 
-            product.retailer = Retailer.objects.get_or_create(
+            product.retailer, _ = Retailer.objects.get_or_create(
                 name=row['retailer name'])
 
             product.image_url = row['image url']
