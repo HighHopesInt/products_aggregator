@@ -119,12 +119,18 @@ class UploadedFile(BaseAttributesModel):
         (ALMOST, 'Almost')
     )
 
-    # name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256, unique=False, blank=True)
     file = models.FileField(upload_to='uploaded_files')
-
     status = models.CharField(max_length=20, blank=True,
                               choices=STATUS_CHOICES, default=NONE)
     log = models.TextField(default='', blank=True)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        self.name = self.file.name[self.file.name.find('/')+1:]
+
+        super().save(force_insert, force_update, using, update_fields)
 
     def update_status(self, status, log=""):
         self.status = status
