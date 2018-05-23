@@ -1,4 +1,4 @@
-from .load_csv import parse
+from .tasks import parse
 
 
 def dummy(sender, instance, created, **kwargs):
@@ -8,4 +8,4 @@ def dummy(sender, instance, created, **kwargs):
 
 def parse_csv_after_upload(sender, instance, created, **kwargs):
     if created:
-        parse(instance)
+        parse.delay(instance.id)
