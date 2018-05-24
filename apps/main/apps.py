@@ -9,5 +9,5 @@ class MainConfig(AppConfig):
         from .models import UploadedFile
         from .signals import dummy, parse_csv_after_upload
 
-        # pre_save.connect(dummy, sender=UploadedFiles)
+        # pre_save.connect(dummy, sender=UploadedFile)
         post_save.connect(parse_csv_after_upload, sender=UploadedFile)

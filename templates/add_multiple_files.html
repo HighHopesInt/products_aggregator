@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<fieldset class="module">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Upload files</h2>
+        {{ form }}
+        <input type="submit" />
+    </form>
+</fieldset>
+
+
+{% endblock %}
