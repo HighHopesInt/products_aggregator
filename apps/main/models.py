@@ -56,10 +56,10 @@ class Product(models.Model):
 
     description = models.CharField(max_length=1000, blank=True)
     meta_description = models.CharField(max_length=500, blank=True)
-    short_description = models.CharField(max_length=100)
+    short_description = models.CharField(max_length=500)
 
-    title = models.CharField(max_length=100, blank=True)
-    meta_title = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=500, blank=True)
+    meta_title = models.CharField(max_length=500, blank=True)
 
     retailer = models.ForeignKey('Retailer', null=True,
                                  on_delete=models.SET_NULL,
