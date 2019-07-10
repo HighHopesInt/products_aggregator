@@ -4,3 +4,7 @@ django-mptt==0.9.0
 pytz==2018.4
 psycopg2-binary==2.7.4
 celery==4.1.1
+requests==2.22.0
+django-dotenv==1.4.2
+django-environ==0.4.5
+
