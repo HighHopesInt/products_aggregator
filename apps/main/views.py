@@ -15,7 +15,7 @@ class ProductList(ListView):
             categories = cat.get_descendants(
                 include_self=True).all().values_list('id', flat=True)
             product_list = Product.objects.all().filter(
-                category_id__in=categories)
+                category_id__in=categories, available=True)
         else:
             product_list = []
 
