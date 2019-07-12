@@ -1,5 +1,28 @@
 {% extends 'base.html' %}
+{% load static%}
 {% block content %}
 <h1>Detail page product</h1>
-<h2>name: {{ object }}</h2>
+<h2>name: {{ object.title }}</h2>
+<h2>short description: {{ object.short_description }}</h2>
+    {% if exist_image %}
+        <h2>image: <img src="{{ object.image_url }}" width="400" height="400"></h2>
+    {% else %}
+        <h2>image: <img src="{% static 'image-not-found.png' %}" width="400" height="400"></h2>
+    {% endif %}
+<h2>description: {{ object.description }}</h2>
+<h2>brand: {{ object.brand }}</h2>
+<h2>color: {{ object.color }}</h2>
+    {% if object.size %}
+        <h2>size: <pre>{{ object.size }}</pre></h2>
+    {% endif %}
+<h2>material: {{ object.material }}</h2>
+<h2>price: {{ object.price }}</h2>
+    {% if object.available %}
+        <h2>available: Yes</h2>
+    {% else %}
+        <h2>available: No</h2>
+    {% endif %}
+    {% if object.free_shipping %}
+        <h2>free shipping: Yes</h2>
+    {% endif %}
 {% endblock %}

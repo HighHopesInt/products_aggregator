@@ -1,7 +1,6 @@
 from django.views.generic import ListView, DetailView
 from apps.main.models import Category, Product
 
-
 class ProductList(ListView):
     template_name = 'catalog.html'
 
@@ -25,3 +24,11 @@ class ProductList(ListView):
 class ProductView(DetailView):
     template_name = "product.html"
     model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductView, self).get_context_data()
+        context['exist_image'] = False
+        context['object'].size_format()
+        if context['object'].exists():
+            context['exist_image'] = True
+        return context
