@@ -1,5 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+import requests
+from apps.main.utils import is_number, create_list, to_simple_list
 
 # Create your models here.
 
@@ -85,6 +87,38 @@ class Product(models.Model):
                                 null=True, blank=True, default=0)
     sale_price = models.DecimalField(max_digits=16, decimal_places=2,
                                      null=True, blank=True, default=0)
+
+    def exists(self):
+        if not self.image_url:
+            return False
+        r = requests.head(self.image_url)
+        return r.status_code == requests.codes.ok
+
+    def size_format(self):
+        size_list = self.size.split('|')
+        exist = False
+        for item in size_list:
+            if ' (' in item:
+                new_size_list = create_list(size_list)
+                exist = True
+            else:
+                new_size_list = size_list.copy()
+        if exist:
+            new_size_list = to_simple_list(new_size_list)
+        us_size = []
+        eu_size = []
+        for i in new_size_list:
+            i.strip()
+            if i.endswith('EU'):
+                eu_size.append(i)
+            elif i.endswith('US'):
+                us_size.append(i)
+            elif is_number(i):
+                if float(i) < 30.0:
+                    us_size.append(i)
+                else:
+                    eu_size.append(i)
+        self.size = '|'.join(eu_size) + '\n' + '|'.join(us_size)
 
 
 class Retailer(BaseAttributesModel):
