@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import absolute_import, unicode_literals
 import os
+import dotenv
+import environ
 from celery import Celery
 
+env = environ.Env()
+
 # set the default Django settings module for the 'celery' program.
+project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+dotenv.read_dotenv(os.path.join(project_path, '.env'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings_dev')
 
 app = Celery('core', broker='amqp://', include=['apps.main.tasks'])
