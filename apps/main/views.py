@@ -42,7 +42,7 @@ class ProductView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProductView, self).get_context_data()
         context['exist_image'] = False
-        context['object'].size_format()
+        context['size_str'] = context['object'].size_format()
         if context['object'].exists():
             context['exist_image'] = True
         return context

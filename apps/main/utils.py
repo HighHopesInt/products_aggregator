@@ -13,6 +13,7 @@ def is_number(string):
     except ValueError:
         return False
 
+
 def to_simple_list(complex_list):
     """
     Create simple list from complex list
@@ -21,6 +22,7 @@ def to_simple_list(complex_list):
     """
     return list(itertools.chain(*complex_list))
 
+
 def create_list(size_list):
     """
     Need if meet list with '('. Remove '(' and create simple list
@@ -28,7 +30,19 @@ def create_list(size_list):
     :param exist: Does exist list with '('
     :return:
     """
-    new_size_list = [i.split (' ') for i in size_list]
+    new_size_list = [i.split(' ') for i in size_list]
     for in_item in range(len(new_size_list)):
         new_size_list[in_item][1] = new_size_list[in_item][1][1:-1]
+    return new_size_list
+
+
+def width_to_size(size_list):
+    new_size_list = []
+    for item in size_list:
+        if item.startswith('Width: D (Standard);'):
+            item = item.replace('Width: D (Standard); Size: ', '')
+            new_size_list.append(item)
+        if item.endswith(';'):
+            item = item.replace(';', '')
+            new_size_list.append(item)
     return new_size_list
