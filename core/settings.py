@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -133,7 +134,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    '/home/eduard/products_aggregator/static/',
+    str(Path.home()) + '/products_aggregator/static/',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
