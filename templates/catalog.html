@@ -4,6 +4,14 @@
 
 <h1>Catalog</h1>
 
+<div>
+    <form action="" method="get">
+            <label for="checkbox">Hide unavailable</label>
+            <input type="checkbox" name="checkbox" id="checkbox" {% if save %} checked {% endif %}>
+            <input type="submit" value="Update">
+    </form>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-md-4">
@@ -30,16 +38,16 @@
     </div>
     <div class="col-md-8">
         <ul>
-        {% for product in product_list %}
+            {% for product in product_list %}
             <li>
                 <a href="{% url 'product_detail' pk=product.id %}">
                     {{ product }}
                 </a>
             </li>
-        {% endfor %}
+            {% endfor %}
         </ul>
     </div>
   </div>
 </div>
 
-{% endblock %}      
+{% endblock %}
