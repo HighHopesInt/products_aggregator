@@ -1,3 +1,4 @@
+from admin_numeric_filter.admin import SliderNumericFilter, NumericFilterModelAdmin
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
@@ -49,5 +50,16 @@ admin.site.register(
         'indented_title',
     ),
 )
-admin.site.register([Product, Brand, Color, Retailer])
+admin.site.register([Brand, Color, Retailer])
 admin.site.register(UploadedFile, UploadedFileAdmin)
+
+
+class CustomSliderNumericFilter(SliderNumericFilter):
+    MAX_DECIMALS = 2
+    STEP = 10
+
+@admin.register(Product)
+class ProductAdmin(NumericFilterModelAdmin):
+    list_filter = ('gender', 'brand', 'color', 'material', 'size', 'available', ('price', CustomSliderNumericFilter),
+                   'retailer')
+    search_fields = ('title', 'meta_title')
