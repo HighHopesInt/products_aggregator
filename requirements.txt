@@ -7,4 +7,4 @@ celery==4.1.1
 requests==2.22.0
 django-dotenv==1.4.2
 django-environ==0.4.5
-
+django-admin-numeric-filter==0.1.4

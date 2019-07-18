@@ -36,6 +36,7 @@ APPS = [
 
 PACKAGES = [
     'mptt',
+    'admin_numeric_filter',
 ]
 
 INSTALLED_APPS = [
