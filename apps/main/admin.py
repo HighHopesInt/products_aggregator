@@ -1,4 +1,5 @@
 from admin_numeric_filter.admin import SliderNumericFilter, NumericFilterModelAdmin
+from django_admin_listfilter_dropdown.filters import DropdownFilter, ChoiceDropdownFilter, RelatedDropdownFilter
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
@@ -58,8 +59,14 @@ class CustomSliderNumericFilter(SliderNumericFilter):
     MAX_DECIMALS = 2
     STEP = 10
 
+
 @admin.register(Product)
-class ProductAdmin(NumericFilterModelAdmin):
-    list_filter = ('gender', 'brand', 'color', 'material', 'size', 'available', ('price', CustomSliderNumericFilter),
-                   'retailer')
+class ProductAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+    list_filter = ('gender', ('brand', RelatedDropdownFilter),
+                   ('color', RelatedDropdownFilter),
+                   ('material', DropdownFilter),
+                   'size',
+                   'available',
+                   ('price', CustomSliderNumericFilter),
+                   ('retailer', RelatedDropdownFilter))
     search_fields = ('title', 'meta_title')
