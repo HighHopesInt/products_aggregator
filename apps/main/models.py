@@ -112,8 +112,10 @@ class Product(models.Model):
         for i in new_size_list:
             i.strip()
             if i.endswith('EU'):
+                i = i[:-2]
                 eu_size.append(i)
             elif i.endswith('US'):
+                i = i[:-3]
                 us_size.append(i)
             elif i.endswith('½'):
                 eu_size.append(i)
