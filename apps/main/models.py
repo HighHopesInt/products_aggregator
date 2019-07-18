@@ -122,7 +122,12 @@ class Product(models.Model):
                     us_size.append(i)
                 else:
                     eu_size.append(i)
-        return '|'.join(eu_size) + '\n' + '|'.join(us_size)
+        if not us_size:
+            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size: -'
+        elif not eu_size:
+            return 'EU Size: -' + '\n' + 'US Size:' + ', '.join(us_size)
+        else:
+            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size:' + ', '.join(us_size)
 
 
 class Retailer(BaseAttributesModel):
