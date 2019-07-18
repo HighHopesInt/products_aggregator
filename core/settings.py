@@ -37,6 +37,7 @@ APPS = [
 PACKAGES = [
     'mptt',
     'admin_numeric_filter',
+    'django_admin_listfilter_dropdown',
 ]
 
 INSTALLED_APPS = [
