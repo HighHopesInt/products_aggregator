@@ -1,5 +1,5 @@
 from admin_numeric_filter.admin import SliderNumericFilter, NumericFilterModelAdmin
-from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter, ChoiceDropdownFilter
+from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.http import HttpResponseRedirect
