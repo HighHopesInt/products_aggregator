@@ -2,21 +2,45 @@
 {% load static%}
 {% block content %}
 <h1>Detail page product</h1>
-<h2>name: {{ object.title }}</h2>
+    {% if object.title %}
+        <h2>name: {{ object.title }}</h2>
+    {% else %}
+        <h2>name: -</h2>
+    {% endif %}
 <h2>short description: {{ object.short_description }}</h2>
     {% if exist_image %}
         <h2>image: <img src="{{ object.image_url }}" width="400" height="400"></h2>
     {% else %}
         <h2>image: <img src="{% static 'image-not-found.png' %}" width="400" height="400"></h2>
     {% endif %}
-<h2>description: {{ object.description }}</h2>
-<h2>brand: {{ object.brand }}</h2>
-<h2>color: {{ object.color }}</h2>
+    {% if object.description %}
+        <h2>description: {{ object.description }}</h2>
+    {% else %}
+        <h2>description: -</h2>
+    {% endif %}
+    {% if object.brand %}
+        <h2>brand: {{ object.brand }}</h2>
+    {% else %}
+        <h2>brand: -</h2>
+    {% endif %}
+    {% if object.color %}
+        <h2>color: {{ object.color }}</h2>
+    {% else %}
+        <h2>color: -</h2>
+    {% endif %}
     {% if object.size %}
         <h2>size: <pre>{{ size_str }}</pre></h2>
     {% endif %}
-<h2>material: {{ object.material }}</h2>
-<h2>price: {{ object.price }}</h2>
+    {% if object.material %}
+        <h2>material: {{ object.material }}</h2>
+    {% else %}
+        <h2>material: -</h2>
+    {% endif %}
+    {% if object.price %}
+        <h2>price: {{ object.price }}</h2>
+    {% else %}
+        <h2>price: -</h2>
+    {% endif %}
     {% if object.available %}
         <h2>available: Yes</h2>
     {% else %}
