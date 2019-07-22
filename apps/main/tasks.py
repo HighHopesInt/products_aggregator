@@ -3,7 +3,7 @@ import csv
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
-from apps.main.models import *
+from apps.main.models import UploadedFile, Product, Brand, Category, Color, Retailer
 from core.celery import app
 
 
@@ -71,7 +71,7 @@ def parse(datafile_instance_id):
                           'subcategory', 'subsubcategory']
 
             for i, name in enumerate(cat_fields):
-                parent = None if i == 0 else cats[i-1]
+                parent = None if i == 0 else cats[i - 1]
                 csv_value = row[name]
                 category, _ = Category.objects.get_or_create(
                     name=csv_value, parent=parent)
