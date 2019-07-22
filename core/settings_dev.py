@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from .settings import *
+from .settings import * # noqa
 import environ
 
 env = environ.Env()
