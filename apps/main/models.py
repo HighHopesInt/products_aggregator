@@ -88,7 +88,7 @@ class Product(models.Model):
     sale_price = models.DecimalField(max_digits=16, decimal_places=2,
                                      null=True, blank=True, default=0)
 
-    def exists(self):
+    def image_exists(self):
         if not self.image_url:
             return False
         r = requests.head(self.image_url)
@@ -100,7 +100,7 @@ class Product(models.Model):
         for item in size_list:
             if item.startswith('Width:'):
                 new_size_list = width_to_size(size_list)
-            elif '('  in item:
+            elif '(' in item:
                 new_size_list = create_list(size_list)
                 exist = True
             else:
@@ -173,7 +173,7 @@ class UploadedFile(BaseAttributesModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
 
-        self.name = self.file.name[self.file.name.find('/')+1:]
+        self.name = self.file.name[self.file.name.find('/') + 1:]
 
         super().save(force_insert, force_update, using, update_fields)
 
