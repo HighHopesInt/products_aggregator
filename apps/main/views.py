@@ -13,12 +13,26 @@ class ProductList(ListView):
             )
             categories = cat.get_descendants(
                 include_self=True).all().values_list('id', flat=True)
-            product_list = Product.objects.all().filter(
-                category_id__in=categories)
+
+            if self.request.GET.get('checkbox', default=False):
+                product_list = Product.objects.all().filter(
+                        category_id__in=categories, available=True)
+                self.save = True
+            else:
+                product_list = Product.objects.all().filter(
+                        category_id__in=categories)
         else:
             product_list = []
 
         return product_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        if self.request.GET.get('checkbox', default=False):
+            context['save'] = True
+        else:
+            context['save'] = False
+        return context
 
 
 class ProductView(DetailView):
