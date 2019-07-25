@@ -1,4 +1,4 @@
-import tempfile
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management.base import BaseCommand
 from apps.main.models import UploadedFile
 
@@ -14,16 +14,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['file']:
-            file = options['file']
-            data = open(file, 'r').read()
-            temp_file = tempfile.NamedTemporaryFile(mode='w',
-                                                    delete=False)
-            temp_file.write(data)
-            upload_file = UploadedFile()
-            print('Done')
-            upload_file.file = temp_file.name
-            upload_file.save()
-            print(temp_file.name)
-            temp_file.close()
+            with open(options['file'], 'rb') as f:
+                data_file = SimpleUploadedFile(name=f.name, content=f.read())
+            UploadedFile.objects.all().create(file=data_file)
         else:
             print('You do\'t write arguments')
