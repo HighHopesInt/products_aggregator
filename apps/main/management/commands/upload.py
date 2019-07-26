@@ -21,13 +21,13 @@ class Command(BaseCommand):
                             data_file = SimpleUploadedFile(name=f.name,
                                                            content=f.read())
                         UploadedFile.objects.all().create(file=data_file)
-                        print(item + filename + 'upload success')
+                        self.stdout.write(item + filename + ' upload success')
                 else:
                     with open(item, 'rb') as f:
                         data_file = SimpleUploadedFile(name=f.name,
                                                        content=f.read())
                     UploadedFile.objects.all().create(file=data_file)
-                    print(item + 'upload success')
+                    self.stdout.write(item + ' upload success')
         except FileNotFoundError:
             print('Not Found File')
         except ValueError:
