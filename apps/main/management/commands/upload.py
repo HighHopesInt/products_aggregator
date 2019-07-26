@@ -1,7 +1,7 @@
+import os
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management.base import BaseCommand
 from apps.main.models import UploadedFile
-import os
 
 
 class Command(BaseCommand):
