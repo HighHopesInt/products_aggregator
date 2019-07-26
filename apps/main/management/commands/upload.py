@@ -12,6 +12,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
+            if not options['file']:
+                raise ValueError
             for item in options['file']:
                 if os.path.isdir(item):
                     for filename in os.listdir(item):
