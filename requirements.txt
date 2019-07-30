@@ -10,3 +10,4 @@ django-environ==0.4.5
 django-admin-numeric-filter==0.1.4
 django-admin-list-filter-dropdown==1.0.2
 flake8==3.7.8
+mysqlclient==1.4.2.post1
