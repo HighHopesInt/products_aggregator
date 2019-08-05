@@ -68,22 +68,40 @@ class PermissionTest(TestCase):
 
     def setUp(self):
         group_supervisers, created_s = Group.objects.get_or_create(name='Admin')
+        group_admins, created_a = Group.objects.get_or_create(name='Supervisers')
+        group_managers, created_m = Group.objects.get_or_create(name='Managers')
         ct = ContentType.objects.get_for_model(UploadedFile)
-        permission_for_supervisers = Permission.objects.create(
-            codename='can_change_uploadedfile',
+        permission_change_file = Permission.objects.create(
+            codename='main.change_uploadedfile',
             name='Can change uploadedfile',
             content_type=ct
         )
-        permission_for_admins = Permission.objects.create(
-            codename='can_add_uploadfile',
-            name='Can add uploadfile',
+        permission_add_file = Permission.objects.create(
+            codename='main.add_uploadedfile',
+            name='Can add upload file',
             content_type=ct
         )
-        group_supervisers.permissions.add(permission_for_supervisers)
+        group_supervisers.permissions.add(permission_change_file)
+        group_admins.permissions.add(permission_add_file)
+        group_managers.permissions.add(permission_add_file)
         test_supervisor = User.objects.create_user(username='Supervisor', password='12345678')
+        test_admin = User.objects.create_user(username='Admin', password='12345678')
+        test_manager = User.objects.create_user(username='Manager', password='12345678')
         test_supervisor.groups.add(group_supervisers)
+        test_admin.groups.add(group_admins)
+        test_manager.groups.add(group_managers)
 
     def test_add_upload_file_for_supervisers(self):
         self.client.login(username='Supervisor', password='12345678')
         resp = self.client.get('/admin/main/uploadedfile/add/')
         self.assertEquals(resp.status_code, 302)
+
+    def test_add_upload_file_for_admin(self):
+        self.client.login(username='Admin', password='12345678')
+        resp = self.client.get('/admin/main/uploadedfile/add')
+        self.assertEquals(resp.status_code, 200)
+
+    def test_add_upload_file_for_manager(self):
+        self.client.login(username='Manager', password='12345678')
+        resp = self.client.get('/admin/main/uploadedfile/add')
+        self.assertEquals(resp.status_code, 200)
