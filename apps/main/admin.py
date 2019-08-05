@@ -56,8 +56,8 @@ class UploadedFileAdmin(admin.ModelAdmin):
     def multiple_upload_files(self, request):
         form = FileFieldForm()
         user = request.user
-        can_add_file = user.has_perm('core.add_uploadfile')
-        if not can_add_file:
+        permission = user.get_group_permissions()
+        if not('main.add_uploadedfile' in permission):
             return HttpResponseForbidden()
         if request.method == 'POST':
             form = FileFieldForm(data=request.POST, files=request.FILES)
