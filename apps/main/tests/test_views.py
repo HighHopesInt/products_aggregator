@@ -1,10 +1,11 @@
+from pathlib import Path
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from django.contrib.admin.sites import AdminSite
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, Group, Permission
 from mixer.backend.django import mixer
-from django.conf import settings
+
 
 from apps.main.models import UploadedFile, Product, Category
 from apps.main.admin import UploadedFileAdmin
@@ -46,8 +47,8 @@ class TestUploadFile(TestCase):
     request_factory = RequestFactory()
     request = request_factory.get('/admin')
     request.user = MockSuperUser()
-    request.files = [settings.MEDIA_ROOT + 'uploaded_files/WOMEN_SHOES.csv',
-                     settings.MEDIA_ROOT + 'uploaded_files/file.txt']
+    request.files = [str(Path.home()) + '/products_aggregator/apps/main/tests/test_files/sample.csv',
+                     str(Path.home()) + '/products_aggregator/apps/main/tests/test_files/file.txt']
 
     def setUp(self):
         site = AdminSite()
@@ -71,6 +72,11 @@ class PermissionTest(TestCase):
         permission_for_supervisers = Permission.objects.create(
             codename='can_change_uploadedfile',
             name='Can change uploadedfile',
+            content_type=ct
+        )
+        permission_for_admins = Permission.objects.create(
+            codename='can_add_uploadfile',
+            name='Can add uploadfile',
             content_type=ct
         )
         group_supervisers.permissions.add(permission_for_supervisers)

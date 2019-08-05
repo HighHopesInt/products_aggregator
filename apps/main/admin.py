@@ -11,7 +11,7 @@ from .models import Category, Product, Brand, Color, Retailer, UploadedFile
 from .forms import FileFieldForm
 
 
-class EUSizes(SimpleListFilter):
+class EU_Sizes(SimpleListFilter):
     template = 'django_admin_listfilter_dropdown/dropdown_filter.html'
 
     title = 'EU Sizes'
@@ -27,7 +27,7 @@ class EUSizes(SimpleListFilter):
             return queryset.filter(size__icontains=self.value())
 
 
-class USSizes(SimpleListFilter):
+class US_Sizes(SimpleListFilter):
     template = 'django_admin_listfilter_dropdown/dropdown_filter.html'
 
     title = 'US Sizes'
@@ -103,8 +103,8 @@ class ProductAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
                    ('brand', RelatedDropdownFilter),
                    ('color', RelatedDropdownFilter),
                    ('material', DropdownFilter),
-                   EUSizes,
-                   USSizes,
+                   EU_Sizes,
+                   US_Sizes,
                    'available',
                    ('price', CustomSliderNumericFilter),
                    ('retailer', RelatedDropdownFilter))

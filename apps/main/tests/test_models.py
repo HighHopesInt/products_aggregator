@@ -24,8 +24,8 @@ class UploadedFileModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        mixer.blend(UploadedFile, file='uploaded_files/WOMEN_SHOES.csv')
+        mixer.blend(UploadedFile, file='/apps/main/tests/test_files/sample.csv')
 
     def test_create_name(self):
         file = UploadedFile.objects.get(id=1)
-        self.assertEquals(file.name, 'WOMEN_SHOES.csv')
+        self.assertEquals(file.name, 'apps/main/tests/test_files/sample.csv')
