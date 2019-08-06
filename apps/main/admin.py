@@ -1,5 +1,7 @@
-from admin_numeric_filter.admin import SliderNumericFilter, NumericFilterModelAdmin
-from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
+from admin_numeric_filter.admin import SliderNumericFilter, \
+    NumericFilterModelAdmin
+from django_admin_listfilter_dropdown.filters import DropdownFilter, \
+    RelatedDropdownFilter
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.http import HttpResponseRedirect, HttpResponseForbidden
@@ -11,7 +13,7 @@ from .models import Category, Product, Brand, Color, Retailer, UploadedFile
 from .forms import FileFieldForm
 
 
-class EU_Sizes(SimpleListFilter):
+class EUSizes(SimpleListFilter):
     template = 'django_admin_listfilter_dropdown/dropdown_filter.html'
 
     title = 'EU Sizes'
@@ -27,7 +29,7 @@ class EU_Sizes(SimpleListFilter):
             return queryset.filter(size__icontains=self.value())
 
 
-class US_Sizes(SimpleListFilter):
+class USSizes(SimpleListFilter):
     template = 'django_admin_listfilter_dropdown/dropdown_filter.html'
 
     title = 'US Sizes'
@@ -56,8 +58,8 @@ class UploadedFileAdmin(admin.ModelAdmin):
     def multiple_upload_files(self, request):
         form = FileFieldForm()
         user = request.user
-        can_add_file = user.has_perm('core.add_uploadfile')
-        if not can_add_file:
+        permission = user.get_group_permissions()
+        if 'main.add_uploadedfile' not in permission:
             return HttpResponseForbidden()
         if request.method == 'POST':
             form = FileFieldForm(data=request.POST, files=request.FILES)
@@ -103,8 +105,8 @@ class ProductAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
                    ('brand', RelatedDropdownFilter),
                    ('color', RelatedDropdownFilter),
                    ('material', DropdownFilter),
-                   EU_Sizes,
-                   US_Sizes,
+                   EUSizes,
+                   USSizes,
                    'available',
                    ('price', CustomSliderNumericFilter),
                    ('retailer', RelatedDropdownFilter))
