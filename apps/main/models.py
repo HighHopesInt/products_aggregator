@@ -1,7 +1,8 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 import requests
-from apps.main.utils import is_number, create_list, to_simple_list, width_to_size
+from apps.main.utils import is_number, create_list, \
+    to_simple_list, width_to_size
 
 # Create your models here.
 
@@ -129,7 +130,8 @@ class Product(models.Model):
         elif not eu_size:
             return 'EU Size: -' + '\n' + 'US Size:' + ', '.join(us_size)
         else:
-            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size:' + ', '.join(us_size)
+            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size:' \
+                   + ', '.join(us_size)
 
 
 class Retailer(BaseAttributesModel):

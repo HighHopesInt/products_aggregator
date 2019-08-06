@@ -3,7 +3,8 @@ import csv
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
-from apps.main.models import UploadedFile, Product, Brand, Category, Color, Retailer
+from apps.main.models import UploadedFile, \
+    Product, Brand, Category, Color, Retailer
 from core.celery import app
 
 
