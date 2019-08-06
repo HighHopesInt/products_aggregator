@@ -1,5 +1,7 @@
-from admin_numeric_filter.admin import SliderNumericFilter, NumericFilterModelAdmin
-from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
+from admin_numeric_filter.admin import SliderNumericFilter, \
+    NumericFilterModelAdmin
+from django_admin_listfilter_dropdown.filters import DropdownFilter, \
+    RelatedDropdownFilter
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.http import HttpResponseRedirect, HttpResponseForbidden
@@ -57,7 +59,7 @@ class UploadedFileAdmin(admin.ModelAdmin):
         form = FileFieldForm()
         user = request.user
         permission = user.get_group_permissions()
-        if not('main.add_uploadedfile' in permission):
+        if 'main.add_uploadedfile' not in permission:
             return HttpResponseForbidden()
         if request.method == 'POST':
             form = FileFieldForm(data=request.POST, files=request.FILES)
