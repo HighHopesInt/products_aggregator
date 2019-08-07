@@ -1,5 +1,5 @@
 from pathlib import Path
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, Client
 from django.urls import reverse
 from django.contrib.admin.sites import AdminSite
 from django.contrib.contenttypes.models import ContentType
@@ -44,11 +44,16 @@ class TestUploadFile(TestCase):
         def is_staff(self):
             return True
 
+        def get_group_permissions(self):
+            return ('main.add_uploadedfile', )
+
     request_factory = RequestFactory()
     request = request_factory.get('/admin')
     request.user = MockSuperUser()
-    request.files = [str(Path.home()) + '/products_aggregator/apps/main/tests/test_files/sample.csv',
-                     str(Path.home()) + '/products_aggregator/apps/main/tests/test_files/file.txt']
+    request.files = [str(Path.home()) + ('/products_aggregator/apps/'
+                                         'main/tests/test_files/sample.csv'),
+                     str(Path.home()) + ('/products_aggregator/apps/main/'
+                                         'tests/test_files/file.txt')]
 
     def setUp(self):
         site = AdminSite()
@@ -67,9 +72,15 @@ class TestUploadFile(TestCase):
 class PermissionTest(TestCase):
 
     def setUp(self):
-        group_supervisers, created_s = Group.objects.get_or_create(name='Admin')
-        group_admins, created_a = Group.objects.get_or_create(name='Supervisers')
-        group_managers, created_m = Group.objects.get_or_create(name='Managers')
+        self.client = Client()
+
+        group_supervisers, created_s = \
+            Group.objects.get_or_create(name='Admin')
+        group_admins, created_a = \
+            Group.objects.get_or_create(name='Supervisers')
+        group_managers, created_m = \
+            Group.objects.get_or_create(name='Managers')
+
         ct = ContentType.objects.get_for_model(UploadedFile)
         permission_change_file = Permission.objects.create(
             codename='main.change_uploadedfile',
@@ -81,12 +92,22 @@ class PermissionTest(TestCase):
             name='Can add upload file',
             content_type=ct
         )
+
         group_supervisers.permissions.add(permission_change_file)
         group_admins.permissions.add(permission_add_file)
         group_managers.permissions.add(permission_add_file)
-        test_supervisor = User.objects.create_user(username='Supervisor', password='12345678')
-        test_admin = User.objects.create_user(username='Admin', password='12345678')
-        test_manager = User.objects.create_user(username='Manager', password='12345678')
+
+        test_supervisor = User.objects.create_user(username='Supervisor',
+                                                   password='12345678')
+        test_admin = User.objects.create_user(username='Admin',
+                                              password='12345678')
+        test_manager = User.objects.create_user(username='Manager',
+                                                password='12345678')
+
+        test_supervisor.save()
+        test_admin.save()
+        test_manager.save()
+
         test_supervisor.groups.add(group_supervisers)
         test_admin.groups.add(group_admins)
         test_manager.groups.add(group_managers)
@@ -98,10 +119,10 @@ class PermissionTest(TestCase):
 
     def test_add_upload_file_for_admin(self):
         self.client.login(username='Admin', password='12345678')
-        resp = self.client.get('/admin/main/uploadedfile/add')
+        resp = self.client.get('/admin/main/uploadedfile/add/', follow=True)
         self.assertEquals(resp.status_code, 200)
 
     def test_add_upload_file_for_manager(self):
         self.client.login(username='Manager', password='12345678')
-        resp = self.client.get('/admin/main/uploadedfile/add')
+        resp = self.client.get('/admin/main/uploadedfile/add/', follow=True)
         self.assertEquals(resp.status_code, 200)
