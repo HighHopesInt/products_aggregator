@@ -6,4 +6,4 @@ install:
 matrix:
   include:
     - python: "3.6"
-      script: "flake8 --exclude=manage.py /apps/main/migrations/"
+      script: "flake8 --exclude=manage.py,./apps/main/migrations/,./core/settings.py"
