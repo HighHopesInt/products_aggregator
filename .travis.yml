@@ -1,9 +1,21 @@
 language: python
 
+services: mysql
+
+env:
+  global:
+    - DJANGO_SEETINGS_MODULE='core.settings_dev.'
+    - BUILD_ON_TRAVIS=true
+    - PIP_USE_MIRRORS=true
+
+  matrix:
+    - DJANGO=2.0.12 DB=mysql
+
 python:
   - "3.6"
 
 install:
+  - pip install -q DJANGO==$DJANGO
   - pip install -r requirements.txt
 
 matrix:
@@ -12,8 +24,3 @@ matrix:
       script:
         - "flake8 --exclude=manage.py /apps/main/migrations/"
         - "python3 manage.py test"
-      env:
-        - DB_ENGINE = django.db.backends.mysql
-        - DB_USER = user
-        - DB_PASSWORD = 12345678
-        - DJANGO_SETTINGS_MODULE = "core.settings_dev"
