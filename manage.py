@@ -4,13 +4,17 @@ import sys
 import dotenv
 import environ
 
+import core.settings_dev
+
 if __name__ == "__main__":
     env = environ.Env()
     project_path = os.path.dirname(os.path.abspath(__file__))
 
-    dotenv.read_dotenv(os.path.join(project_path, '.env'))
+    if not os.getenv('BUILD_ON_TRAVIS'):
+        dotenv.read_dotenv(os.path.join(project_path, '.env'))
     os.environ.setdefault("DJANGO_SETTINGS_MODULE",
-                          env('DJANGO_SETTINGS_MODULE'))
+                          env('DJANGO_SETTINGS_MODULE',
+                              default=core.settings_dev))
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -9,7 +9,8 @@ env = environ.Env()
 
 # set the default Django settings module for the 'celery' program.
 project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-dotenv.read_dotenv(os.path.join(project_path, '.env'))
+if not os.getenv('BUILD_ON_TRAVIS'):
+    dotenv.read_dotenv(os.path.join(project_path, '.env'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings_dev')
 
 app = Celery('core', broker='amqp://', include=['apps.main.tasks'])
