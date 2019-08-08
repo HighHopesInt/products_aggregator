@@ -22,5 +22,5 @@ matrix:
   include:
     - python: "3.6"
       script:
-        - "flake8 --exclude=manage.py /apps/main/migrations/"
+        - "flake8 --exclude=manage.py,./apps/main/migrations/,./core/settings.py"
         - "python3 manage.py test"
