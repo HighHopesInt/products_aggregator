@@ -16,3 +16,4 @@ matrix:
         - DB_ENGINE = django.db.backends.mysql
         - DB_USER = user
         - DB_PASSWORD = 12345678
+        - DJANGO_SETTINGS_MODULE = "core.settings_dev"
