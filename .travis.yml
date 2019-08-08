@@ -4,7 +4,7 @@ services: mysql
 
 env:
   global:
-    - DJANGO_SEETINGS_MODULE='core.settings_dev.'
+    - DJANGO_SEETINGS_MODULE='core.settings_dev'
     - BUILD_ON_TRAVIS=true
     - PIP_USE_MIRRORS=true
 
