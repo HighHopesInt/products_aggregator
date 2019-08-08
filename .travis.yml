@@ -12,3 +12,7 @@ matrix:
       script:
         - "flake8 --exclude=manage.py /apps/main/migrations/"
         - "python3 manage.py test"
+      env:
+        - DB_ENGINE = django.db.backends.mysql
+        - DB_USER = user
+        - DB_PASSWORD = 12345678
