@@ -1,4 +1,4 @@
-from pathlib import Path
+import os
 from django.test import TestCase, RequestFactory, Client
 from django.urls import reverse
 from django.contrib.admin.sites import AdminSite
@@ -50,10 +50,8 @@ class TestUploadFile(TestCase):
     request_factory = RequestFactory()
     request = request_factory.get('/admin')
     request.user = MockSuperUser()
-    request.files = [str(Path.home()) + ('/products_aggregator/apps/'
-                                         'main/tests/test_files/sample.csv'),
-                     str(Path.home()) + ('/products_aggregator/apps/main/'
-                                         'tests/test_files/file.txt')]
+    request.files = [os.path.abspath('apps/main/tests/test_files/sample.csv'),
+                     os.path.abspath('apps/main/tests/test_files/file.txt')]
 
     def setUp(self):
         site = AdminSite()
@@ -64,6 +62,7 @@ class TestUploadFile(TestCase):
         self.assertEquals(proceed.status_code, 200)
 
     def test_upload_files(self):
+        print(self.request.files[0])
         for item in self.request.files:
             with open(item) as f:
                 self.client.post('/admin/main/uploadedfile/add/', {'form': f})
