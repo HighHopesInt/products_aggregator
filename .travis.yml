@@ -11,4 +11,4 @@ matrix:
     - python: "3.6"
       script:
         - "flake8 --exclude=manage.py /apps/main/migrations/"
-        - "python3 manage.py test apps.main.tests"
+        - "python3 manage.py test"
