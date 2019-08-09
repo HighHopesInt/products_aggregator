@@ -25,7 +25,8 @@ Also we recommend use python 3.6
 1. Complete security script by running:
 `sudo mysql_secure_installation`
 2. After create database for project and user and give him privileges
-for database
+for database. You can use this [manual](https://www.digitalocean.com/community/tutorials/how-to-use-mysql-or-mariadb-with-your-django-application-on-ubuntu-14-04)
+if you encountered problems at this stage
 3. Clone repository with commands:
 `git clone https://github.com/HighHopesInt/products_aggregator.git`
 4. Use command `cd products_aggregator` 
