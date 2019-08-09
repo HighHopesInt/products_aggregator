@@ -45,6 +45,6 @@ After open browser and input localhost:8000 or 127.0.0.1:8000
 #### Run unit test
 
 Use command `python manage.py test` in your virtualenv that run unit tests.
-We also can add name of kind application that run tests for it.
+We also can add name of kind application that run tests for it. **Attention!** You may have to give the user rights in MariaDB to the default test database for tests. More details in [documentation](https://docs.djangoproject.com/en/2.2/topics/testing/overview/#the-test-database)
 
 Please, if you search error tell us in issue.
