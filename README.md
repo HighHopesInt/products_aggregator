@@ -3,12 +3,12 @@
 ## Table of contents
 
 
-* [Getting Started](#Getting Started)
-  * [Required packages](#Required packages)
-  * [Install project](#Install project)
+* [Getting Started](#Getting-Started)
+  * [Required packages](#Required-packages)
+  * [Install project](#Install-project)
 * [Documentation](#Documentation)
-  * [Run server](#Run server)
-  * [Run unit tests](#Run unit tests)
+  * [Run server](#Run-server)
+  * [Run unit tests](#Run-unit-tests)
 
 ### Getting Started
 
