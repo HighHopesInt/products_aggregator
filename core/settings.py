@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 APPS = [
     'apps.main',
+    'scraper',
 ]
 
 PACKAGES = [
