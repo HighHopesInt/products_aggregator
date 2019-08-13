@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .forms import ChoseSiteForm
+from .models import Site
 
 
 def chose_site_admin(request):
@@ -10,10 +11,10 @@ def chose_site_admin(request):
         if form.is_valid():
             # Next two messages is debug information and don't hit in final
             # version
-            messages.success(request, str(request.POST.get('site_one',
-                                                           'False')))
-            messages.success(request, str(request.POST.get('site_two',
-                                                           'False')))
+            for site in range(len(Site.objects.all())):
+                messages.success(request, str(request.POST.get(
+                    'site_' + str(site + 1), 'False'
+                )))
             return HttpResponseRedirect('/admin/main/uploadedfile/')
     context = {'form': form}
     return render(request, 'scraper/chose_sites.html', context)
