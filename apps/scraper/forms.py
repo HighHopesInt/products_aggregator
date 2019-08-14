@@ -3,10 +3,9 @@ from .models import Site
 
 
 class ChoseSiteForm(forms.Form):
-    for site in range(len(Site.objects.all())):
-        locals()['site_' + str(site + 1)] = forms.BooleanField(
-            label=(Site.objects.get(id=site + 1).title +
-                   ' (' + Site.objects.get(id=site + 1).main_url +
-                   Site.objects.get(id=site + 1).slug[:20] + '...)'),
+    for site in Site.objects.all():
+        locals()['site_' + str(site.id)] = forms.BooleanField(
+            label=(site.title + ' (' + site.main_url + site.slug[:10] +
+                   '...)'),
             required=False
         )

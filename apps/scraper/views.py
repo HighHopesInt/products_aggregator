@@ -11,9 +11,9 @@ def chose_site_admin(request):
         if form.is_valid():
             # Next two messages is debug information and don't hit in final
             # version
-            for site in range(len(Site.objects.all())):
+            for site in Site.objects.all():
                 messages.success(request, str(request.POST.get(
-                    'site_' + str(site + 1), 'False'
+                    'site_' + str(site.id), 'False'
                 )))
             return HttpResponseRedirect('/admin/main/uploadedfile/')
     context = {'form': form}
