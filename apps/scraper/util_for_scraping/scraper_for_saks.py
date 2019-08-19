@@ -16,26 +16,29 @@ def scraper_saks(request):
                                            timeout=20)
         bsobj_base_site = BeautifulSoup(request_to_base_url.text,
                                         'html.parser')
-        intermediate_dictionary['Free Shipping'] = False
-        intermediate_dictionary['Available'] = True
-        intermediate_dictionary['Retailer Name'] = next(
-            bsobj_base_site.find('a', {'class': 'hbc-header__logo'}).children
-        ).get_text()
-        intermediate_dictionary['Main Category'] = next(
-            bsobj_base_site.find('a', {'id': 'bc-306418052'}).children
-        ).get_text()
-        intermediate_dictionary['Subcategory'] = bsobj_base_site.find(
-            'a', {'id': 'category-306418205'}
-        ).get_text().strip()
-        intermediate_dictionary['SubSubcategory'] = bsobj_base_site.find(
-            'a', {'id': 'refinement-306420996'}
-        ).get_text().strip()
-        intermediate_dictionary['Gender'] = \
-            intermediate_dictionary['Main Category']
         for index, item in enumerate(
                 bsobj_base_site.findAll(
                     'div', {'id': re.compile('^product-([0-9])*$')}
                 )):
+            intermediate_dictionary['Free Shipping'].append('False')
+            intermediate_dictionary['Available'].append('True')
+            intermediate_dictionary['Retailer Name'].append(list(
+                bsobj_base_site.find('a',
+                                     {'class': 'hbc-header__logo'}).children
+            )[0].get_text())
+            intermediate_dictionary['Main Category'].append(list(
+                bsobj_base_site.find('a', {'id': 'bc-306418052'}).children
+            )[0].get_text())
+            intermediate_dictionary['Subcategory'].append(
+                bsobj_base_site.find(
+                    'a', {'id': 'category-306418205'}
+                ).get_text().strip())
+            intermediate_dictionary['SubSubcategory'].append(
+                bsobj_base_site.find(
+                    'a', {'id': 'refinement-306420996'}
+                ).get_text().strip())
+            intermediate_dictionary['Gender'] = \
+                ['G' + i for i in intermediate_dictionary['Main Category']]
             link = item['data-url']
             intermediate_dictionary['Image URL'].append(item['data-image'])
             bsobj_product = get_product_url(link)
@@ -91,7 +94,9 @@ def scraper_saks(request):
             ).get_text())
             intermediate_dictionary['Meta Title'] = \
                 intermediate_dictionary['Title']
-        return str(intermediate_dictionary)
+            if index == 2:
+                break
+        return intermediate_dictionary
     except requests.exceptions.Timeout:
         messages.error(request, 'Timeout')
     except AttributeError:
