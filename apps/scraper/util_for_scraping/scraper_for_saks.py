@@ -38,7 +38,8 @@ def scraper_saks(request):
                     'a', {'id': 'refinement-306420996'}
                 ).get_text().strip())
             intermediate_dictionary['Gender'] = \
-                ['G' + i for i in intermediate_dictionary['Main Category']]
+                [i + ' Gender' for i in intermediate_dictionary
+                 ['Main Category']]
             link = item['data-url']
             intermediate_dictionary['Image URL'].append(item['data-image'])
             bsobj_product = get_product_url(link)
@@ -83,12 +84,12 @@ def scraper_saks(request):
                     ).contents[0])
             else:
                 intermediate_dictionary['Description'].append(
-                    " Don't have description")
+                    ' Product ' + str(index) + ' ')
             intermediate_dictionary['Short Description'] = \
-                intermediate_dictionary['Description'][index]
+                intermediate_dictionary['Description']
             intermediate_dictionary['Meta Description'].append(
                 'Buy' + str(intermediate_dictionary['Description'][index]) +
-                'on' + str(intermediate_dictionary['Material'][index]))
+                'on ' + str(intermediate_dictionary['Material'][index]))
             intermediate_dictionary['Title'].append(bsobj_product.find(
                 'h1', {'class': 'product-overview__short-description'}
             ).get_text())
