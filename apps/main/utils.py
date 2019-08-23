@@ -1,7 +1,6 @@
 import itertools
 import os
 
-from apps.main.models import UploadedFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
@@ -56,15 +55,15 @@ def width_to_size(size_list):
     return new_size_list
 
 
-def upload_files(item):
+def upload_files(item, file):
     if os.path.isdir(item):
         for filename in os.listdir(item):
             with open(item + filename, 'rb') as f:
                 data_file = SimpleUploadedFile(name=f.name,
                                                content=f.read())
-            UploadedFile.objects.all().create(file=data_file)
+            file.objects.all().create(file=data_file)
     else:
         with open(item, 'rb') as f:
             data_file = SimpleUploadedFile(name=f.name,
                                            content=f.read())
-        UploadedFile.objects.all().create(file=data_file)
+        file.objects.all().create(file=data_file)
