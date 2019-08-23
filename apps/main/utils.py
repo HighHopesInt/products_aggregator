@@ -1,4 +1,8 @@
 import itertools
+import os
+
+from apps.main.models import UploadedFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 def is_number(string):
@@ -27,7 +31,6 @@ def create_list(size_list):
     """
     Need if meet list with '('. Remove '(' and create simple list
     :param size_list: list with '('
-    :param exist: Does exist list with '('
     :return: list without '()'
     """
     new_size_list = [i.split(' ') for i in size_list]
@@ -51,3 +54,17 @@ def width_to_size(size_list):
             item = item.replace(';', '')
             new_size_list.append(item)
     return new_size_list
+
+
+def upload_files(item):
+    if os.path.isdir(item):
+        for filename in os.listdir(item):
+            with open(item + filename, 'rb') as f:
+                data_file = SimpleUploadedFile(name=f.name,
+                                               content=f.read())
+            UploadedFile.objects.all().create(file=data_file)
+    else:
+        with open(item, 'rb') as f:
+            data_file = SimpleUploadedFile(name=f.name,
+                                           content=f.read())
+        UploadedFile.objects.all().create(file=data_file)

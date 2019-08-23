@@ -41,6 +41,7 @@ def scraper_saks(request):
                 [i + ' Gender' for i in intermediate_dictionary
                  ['Main Category']]
             link = item['data-url']
+            print(link)
             intermediate_dictionary['Image URL'].append(item['data-image'])
             bsobj_product = get_product_url(link)
             intermediate_dictionary['URL'].append(link)
@@ -95,8 +96,6 @@ def scraper_saks(request):
             ).get_text())
             intermediate_dictionary['Meta Title'] = \
                 intermediate_dictionary['Title']
-            if index == 2:
-                break
         return intermediate_dictionary
     except requests.exceptions.Timeout:
         messages.error(request, 'Timeout')

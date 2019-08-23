@@ -51,6 +51,7 @@ def scraper_franco(request):
             link = 'https://www.francosarto.com' + \
                    prod.find('div', {
                        'class': 'productBrandTitleColor'}).a['href']
+            print(link)
             intermediate_dictionary['URL'].append(link)
             intermediate_dictionary['Subcategory'].append(
                 bs_base.find('a', {'href': re.compile('Products.aspx$'),

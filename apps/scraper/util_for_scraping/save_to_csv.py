@@ -6,3 +6,4 @@ def save_to_csv(data_dict, name_csv):
         writer = csv.writer(f)
         writer.writerow(data_dict.keys())
         writer.writerows(zip(*data_dict.values()))
+        f.close()
