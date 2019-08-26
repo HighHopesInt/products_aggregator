@@ -22,6 +22,10 @@ Also we recommend to use python 3.6.
 
 #### Install project
 
+**Attention!**
+
+The following steps were performed on Ubuntu 18.04. You may encounter a number of errors when trying to do this on a machine with a different operating system.
+
 1. Complete security script by running:
 `sudo mysql_secure_installation`
 2. Create database, user and grant privileges
