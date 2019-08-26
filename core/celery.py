@@ -13,7 +13,10 @@ if not os.getenv('BUILD_ON_TRAVIS'):
     dotenv.read_dotenv(os.path.join(project_path, '.env'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings_dev')
 
-app = Celery('core', broker='amqp://', include=['apps.main.tasks'])
+app = Celery('core', broker='amqp://',
+             include=['apps.main.tasks',
+                      'apps.scraper.util_for_scraping.util'],
+             backend='rpc://')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
