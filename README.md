@@ -22,15 +22,12 @@ Also we recommend to use python 3.6.
 
 #### Install project
 
-<<<<<<< HEAD
 **Attention!**
 
 The following steps were performed on Ubuntu 18.04. You may encounter a number of errors when trying to do this on a machine with a different operating system.
 
-1. Complete security script by running:
-=======
+
 1. Run security script:
->>>>>>> 542a4d8e9a291fdec1bf2ed083d7577fe84f56ea
 `sudo mysql_secure_installation`
 2. Create database, user and grant privileges
 for database to user. You can use this [manual](https://www.digitalocean.com/community/tutorials/how-to-use-mysql-or-mariadb-with-your-django-application-on-ubuntu-14-04)
