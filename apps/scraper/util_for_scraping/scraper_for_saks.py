@@ -18,8 +18,8 @@ def scraper_saks():
             bsobj_base_site.findAll(
                 'div', {'id': re.compile('^product-([0-9])*$')}
             )):
-        intermediate_dictionary['Free Shipping'].append('False')
-        intermediate_dictionary['Available'].append('True')
+        intermediate_dictionary['Free Shipping'].append('FALSE')
+        intermediate_dictionary['Available'].append('TRUE')
         intermediate_dictionary['Retailer Name'].append(list(
             bsobj_base_site.find('a',
                                  {'class': 'hbc-header__logo'}).children
@@ -81,6 +81,9 @@ def scraper_saks():
         intermediate_dictionary['Material'].append(bsobj_product.find(
             'div', {'itemprop': 'description'}
         ).find('ul').find('li').get_text().replace(' upper', ''))
+        intermediate_dictionary['Title'].append(bsobj_product.find(
+            'h1', {'class': 'product-overview__short-description'}
+        ).get_text())
         if isinstance(bsobj_product.find('div', {'itemprop':
                                                  'description'}
                                          ).contents[0], str):
@@ -90,15 +93,17 @@ def scraper_saks():
                 ).contents[0])
         else:
             intermediate_dictionary['Description'].append(
-                ' Product ' + str(index) + ' ')
-        intermediate_dictionary['Short Description'] = \
-            intermediate_dictionary['Description']
+             'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
+             intermediate_dictionary['Brand'][index]
+            )
+        intermediate_dictionary['Short Description'].append(
+            'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
+            intermediate_dictionary['Brand'][index] + ' in ' +
+            intermediate_dictionary['Color'][index]
+        )
         intermediate_dictionary['Meta Description'].append(
             'Buy' + str(intermediate_dictionary['Description'][index]) +
             'on ' + str(intermediate_dictionary['Material'][index]))
-        intermediate_dictionary['Title'].append(bsobj_product.find(
-            'h1', {'class': 'product-overview__short-description'}
-        ).get_text())
         intermediate_dictionary['Meta Title'] = \
             intermediate_dictionary['Title']
     return intermediate_dictionary

@@ -39,8 +39,8 @@ def scraper_franco():
         'id': re.compile('^p-([0-9])*$')
     })):
         intermediate_dictionary['Retailer Name'].append('FrancoSarto')
-        intermediate_dictionary['Free Shipping'].append('True')
-        intermediate_dictionary['Available'].append('True')
+        intermediate_dictionary['Free Shipping'].append('TRUE')
+        intermediate_dictionary['Available'].append('TRUE')
         intermediate_dictionary['Gender'].append('women')
         intermediate_dictionary['Main Category'].append(
             intermediate_dictionary['Gender'][index].title() + '\'s' +
@@ -101,20 +101,21 @@ def scraper_franco():
                                                          .strip())
         intermediate_dictionary['Short Description'].append(
             'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
-            intermediate_dictionary['Brand'][index]
+            intermediate_dictionary['Brand'][index] + ' on ' +
+            intermediate_dictionary['Color'][index]
         )
         intermediate_dictionary['Meta Title'] = \
             intermediate_dictionary['Title']
         intermediate_dictionary['Image URL'].append(
             'https://www.francosarto.com' +
             bs_product.find('img', {'itemprop': 'image'}).attrs['src'])
-        intermediate_dictionary['Price'].append(
+        intermediate_dictionary['Price'].append(int(float(
             bs_product.find('span', {'class': 'price'})
-            .get_text().strip().replace('$', ''))
+            .get_text().strip().replace('$', ''))))
         sale_price = bs_product.find('span', {'class': 'red price'})
         if sale_price:
-            intermediate_dictionary['Sale Price'].append(
-                sale_price.get_text().strip().replace('$', ''))
+            intermediate_dictionary['Sale Price'].append(int(float(
+                sale_price.get_text().strip().replace('$', ''))))
         else:
             intermediate_dictionary['Sale Price'] = \
                 intermediate_dictionary['Price']
