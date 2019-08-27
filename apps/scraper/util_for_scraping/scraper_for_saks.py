@@ -26,7 +26,7 @@ def scraper_saks():
         )[0].get_text())
         intermediate_dictionary['Main Category'].append(list(
             bsobj_base_site.find('a', {'id': 'bc-306418052'}).children
-        )[0].get_text())
+        )[0].get_text() + ' Shoes')
         intermediate_dictionary['Subcategory'].append(
             bsobj_base_site.find(
                 'a', {'id': 'category-306418205'}
@@ -35,9 +35,9 @@ def scraper_saks():
             bsobj_base_site.find(
                 'a', {'id': 'refinement-306420996'}
             ).get_text().strip())
-        intermediate_dictionary['Gender'] = \
-            [i + ' Gender' for i in intermediate_dictionary
-             ['Main Category']]
+        intermediate_dictionary['Gender'].append(list(
+            bsobj_base_site.find('a', {'id': 'bc-306418052'}).children
+        )[0].get_text())
         link = item['data-url']
         print(link)
         intermediate_dictionary['Image URL'].append(item['data-image'])
@@ -64,7 +64,7 @@ def scraper_saks():
         intermediate_dictionary['Brand'].append(bsobj_product.find('a', {
             'class': 'product-overview__brand-link'
         }).get_text())
-        size = bsobj_product.find('div', {'product-size-options'})
+        size = bsobj_product.find('div', {'class': 'product-size-options'})
         size_product = []
         if size:
             size = size.find('ul', {'class':
@@ -73,10 +73,10 @@ def scraper_saks():
                 for si in size.children:
                     if 'product-variant-attribute-value--unavailable' \
                             not in si.attrs['class']:
-                        size_product.append(si.get_text().replace(' M', ''))
+                        size_product.append(si.span.get_text().replace(' M',
+                                                                       ''))
         else:
             size_product.append('')
-        size_product.clear()
         intermediate_dictionary['Size'].append(size_product)
         intermediate_dictionary['Material'].append(bsobj_product.find(
             'div', {'itemprop': 'description'}

@@ -96,11 +96,13 @@ def scraper_franco():
         intermediate_dictionary['Meta Description'].append(
             'Buy ' + intermediate_dictionary['Description'][index] +
             'on ' + intermediate_dictionary['Material'][index])
-        intermediate_dictionary['Short Description'] = \
-            intermediate_dictionary['Description']
         intermediate_dictionary['Title'].append(
             bs_product.find('span', {'itemprop': 'name'}).get_text()
                                                          .strip())
+        intermediate_dictionary['Short Description'].append(
+            'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
+            intermediate_dictionary['Brand'][index]
+        )
         intermediate_dictionary['Meta Title'] = \
             intermediate_dictionary['Title']
         intermediate_dictionary['Image URL'].append(

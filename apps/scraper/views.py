@@ -14,7 +14,9 @@ def chose_site_admin(request):
             if sites:
                 parse = tasks.crauler.delay(sites)
                 if not parse.ready():
-                    messages.warning(request, 'Scraping in progress')
+                    messages.warning(request, 'Scraping in progress. After '
+                                              'a few minutes, go to the '
+                                              'downloaded files section.')
             else:
                 messages.error(request, 'You don\'t choice site')
             return HttpResponseRedirect('/admin/main/uploadedfile/')
