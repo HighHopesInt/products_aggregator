@@ -44,32 +44,39 @@ def scraper_saks():
         bsobj_product = get_product_url(link)
         intermediate_dictionary['URL'].append(link)
         price = bsobj_product.find('span', {'itemprop':
-                                            re.compile('rice$')}).attrs[
-            'content'
-        ]
-        intermediate_dictionary['Price'].append(price)
-        intermediate_dictionary['Price'][index] = int(float(
-            intermediate_dictionary['Price'][index])) // int(
-            get_current_usd())
-        intermediate_dictionary['Color'].append(
-            bsobj_product.find('dd', {'class': re.compile('^product-var')}
-                               ).get_text()
-        )
+                                            re.compile('[P|p]rice$')})
+        if price:
+            price = price.attrs['content']
+
+            intermediate_dictionary['Price'].append(price)
+            intermediate_dictionary['Price'][index] = int(float(
+                intermediate_dictionary['Price'][index])) // int(
+                get_current_usd())
+        else:
+            intermediate_dictionary['Price'].append('')
+        color = bsobj_product.find('dd', {'class': re.compile('^product-var')})
+        if color:
+            intermediate_dictionary['Color'].append(color.get_text())
+        else:
+            intermediate_dictionary['Color'].append('')
         intermediate_dictionary['Sale Price'] = \
             intermediate_dictionary['Price']
         intermediate_dictionary['Brand'].append(bsobj_product.find('a', {
             'class': 'product-overview__brand-link'
         }).get_text())
-        size = bsobj_product.find('div', {'product-size-options'}). \
-            find('ul', {'class': 'product-variant-attribute-values'})
+        size = bsobj_product.find('div', {'product-size-options'})
         size_product = []
         if size:
-            for si in size.children:
-                if 'product-variant-attribute-value--unavailable' \
-                        not in si.attrs['class']:
-                    size_product.append(si.get_text().replace(' M', ''))
+            size = size.find('ul', {'class':
+                                    'product-variant-attribute-values'})
+            if size:
+                for si in size.children:
+                    if 'product-variant-attribute-value--unavailable' \
+                            not in si.attrs['class']:
+                        size_product.append(si.get_text().replace(' M', ''))
         else:
             size_product.append('')
+        size_product.clear()
         intermediate_dictionary['Size'].append(size_product)
         intermediate_dictionary['Material'].append(bsobj_product.find(
             'div', {'itemprop': 'description'}

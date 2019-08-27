@@ -1,5 +1,6 @@
 from django import forms
-from .models import Site
+from apps.scraper.models import Site
+from apps.scraper.utils import set_field_html_name
 
 
 class ChoseSiteForm(forms.Form):
@@ -7,5 +8,8 @@ class ChoseSiteForm(forms.Form):
         locals()['site_' + str(site.id)] = forms.BooleanField(
             label=(site.title + ' (' + site.main_url + site.slug[:10] +
                    '...)'),
-            required=False
+            required=False, widget=forms.CheckboxInput(attrs={
+                'value': site.name_for_crauler,
+            })
         )
+        set_field_html_name(locals()['site_' + str(site.id)], 'site')
