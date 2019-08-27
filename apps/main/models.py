@@ -1,6 +1,7 @@
+import requests
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-import requests
+
 from apps.main.utils import is_number, create_list, \
     to_simple_list, width_to_size
 from apps.scraper.util_for_scraping.meta_data_for_scraping import headers
@@ -92,6 +93,10 @@ class Product(models.Model):
 
     def image_exists(self):
         if not self.image_url:
+            return False
+        if not (str(self.image_url).endswith('.jpeg')
+                or str(self.image_url).endswith('.jpg')
+                or str(self.image_url).endswith('.png')):
             return False
         r = requests.get(self.image_url, headers=headers)
         return r.status_code == requests.codes.ok
