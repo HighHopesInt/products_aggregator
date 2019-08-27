@@ -108,7 +108,8 @@ def scraper_franco():
             intermediate_dictionary['Title']
         intermediate_dictionary['Image URL'].append(
             'https://www.francosarto.com' +
-            bs_product.find('img', {'itemprop': 'image'}).attrs['src'])
+            bs_product.find('img', {'itemprop': 'image'}).attrs[
+                'src'].replace('?preset=details', ''))
         intermediate_dictionary['Price'].append(int(float(
             bs_product.find('span', {'class': 'price'})
             .get_text().strip().replace('$', ''))))

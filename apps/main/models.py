@@ -3,6 +3,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 import requests
 from apps.main.utils import is_number, create_list, \
     to_simple_list, width_to_size
+from apps.scraper.util_for_scraping.meta_data_for_scraping import headers
 
 # Create your models here.
 
@@ -92,7 +93,7 @@ class Product(models.Model):
     def image_exists(self):
         if not self.image_url:
             return False
-        r = requests.head(self.image_url)
+        r = requests.get(self.image_url, headers=headers)
         return r.status_code == requests.codes.ok
 
     def size_format(self):
