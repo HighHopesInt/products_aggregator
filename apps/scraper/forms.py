@@ -3,11 +3,10 @@ from apps.scraper.models import Site
 from apps.scraper.utils import set_field_html_name
 
 
-class ChoseSiteForm(forms.Form):
+class ChooseSiteForm(forms.Form):
     for site in Site.objects.all():
         locals()['site_' + str(site.id)] = forms.BooleanField(
-            label=(site.title + ' (' + site.main_url + site.slug[:10] +
-                   '...)'),
+            label=(site.title + ' (' + site.url[:50] + '...)'),
             required=False, widget=forms.CheckboxInput(attrs={
                 'value': site.name_for_crauler,
             })

@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 
-from apps.scraper.forms import ChoseSiteForm
+from apps.scraper.forms import ChooseSiteForm
 from apps.scraper import tasks
 
 
 def chose_site_admin(request):
-    form = ChoseSiteForm(request.POST)
+    form = ChooseSiteForm(request.POST)
     if request.method == 'POST':
         if form.is_valid():
             sites = request.POST.getlist('site')

@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
-from apps.main.utils import upload_files
-from apps.main.models import UploadedFile
+from apps.main.main_utils import save_file
 
 
 class Command(BaseCommand):
@@ -14,7 +13,7 @@ class Command(BaseCommand):
             if not options['file']:
                 raise ValueError
             for item in options['file']:
-                upload_files(item, UploadedFile)
+                save_file(item)
         except FileNotFoundError:
             print('Not Found File')
         except ValueError:

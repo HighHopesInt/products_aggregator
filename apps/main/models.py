@@ -94,9 +94,9 @@ class Product(models.Model):
     def image_exists(self):
         if not self.image_url:
             return False
-        if not (str(self.image_url).endswith('.jpeg')
-                or str(self.image_url).endswith('.jpg')
-                or str(self.image_url).endswith('.png')):
+        correct_ext = ['.jpeg', '.jpg', '.png']
+        if not any([str(self.image_url).endswith(ext)
+                    for ext in correct_ext]):
             return False
         r = requests.get(self.image_url, headers=headers)
         return r.status_code == requests.codes.ok
