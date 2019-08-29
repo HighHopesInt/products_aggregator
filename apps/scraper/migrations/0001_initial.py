@@ -5,8 +5,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('scraper', '0001_squashed_0004_auto_20190827_0734'), ('scraper', '0002_auto_20190828_0950_squashed_0004_auto_20190828_0956')]
-
     initial = True
 
     dependencies = [
