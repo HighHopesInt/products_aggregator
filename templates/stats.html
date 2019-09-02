@@ -55,4 +55,40 @@
             </tr>
         {% endfor %}
     </table>
+    <br>
+    <table border="1">
+        <tr>
+            <td>Color</td>
+            <td>Percentage</td>
+        </tr>
+        {% for color, percent in per_ratio %}
+            <tr>
+                <td>{{ color }}</td>
+                <td>{{ percent }} %</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <p>
+        The number of product
+        positions in the description of which is the word "famous".
+        The withdrawal form is arbitrary: {{ famous_word }}
+    </p>
+    <br>
+
+    <table border="1">
+        <tr>
+            <td>Title</td>
+            <td>Brands count</td>
+            <td>Products count</td>
+        </tr>
+        {% for retailer, brand_of, number_of in retailer_stat %}
+            <tr>
+                <td>{{ retailer }}</td>
+                <td>{{ brand_of }}</td>
+                <td>{{ number_of }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+<!--    {{ retailer_stat }}-->
 {% endblock %}
