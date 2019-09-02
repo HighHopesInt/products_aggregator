@@ -17,4 +17,42 @@
             </tr>
         {% endfor %}
     </table>
+    <br>
+    <table border="1">
+        <tr>
+            <td>Title</td>
+            <td>Brand</td>
+            <td>Color</td>
+            <td>Price</td>
+            <td>Sale price</td>
+        </tr>
+        {% for title, brand, color, price, sale_price in top_male_boot %}
+            <tr>
+                <td>{{ title }}</td>
+                <td>{{ brand }}</td>
+                <td>{{ color }}</td>
+                <td>{{ price }}</td>
+                <td>{{ sale_price }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <table border="1">
+        <tr>
+            <td>Title</td>
+            <td>Brand</td>
+            <td>Color</td>
+            <td>Price</td>
+            <td>Sale price</td>
+        </tr>
+        {% for title, brand, color, price, sale_price in top_female_boot %}
+            <tr>
+                <td>{{ title }}</td>
+                <td>{{ brand }}</td>
+                <td>{{ color }}</td>
+                <td>{{ price }}</td>
+                <td>{{ sale_price }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
