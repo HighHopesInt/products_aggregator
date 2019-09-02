@@ -4,4 +4,17 @@
 
 {% block content %}
     <p>Here will statistics</p>
+    <p>Total amount of goods: {{ count }}</p>
+    <table border="1">
+        <tr>
+            <td>Brand</td>
+            <td>Products count</td>
+        </tr>
+        {% for brand, num in top_brand %}
+            <tr>
+                <td>{{ brand }}</td>
+                <td>{{ num }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
