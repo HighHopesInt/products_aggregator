@@ -2,10 +2,14 @@
 
 {% load static %}
 
+{% block addi_css %}
+    <link rel="stylesheet" href="{% static 'css/statistics.css' %}">
+{% endblock %}
+
 {% block content %}
     <p>Here will statistics</p>
     <p>Total amount of goods: {{ count }}</p>
-    <table border="1">
+    <table>
         <tr>
             <td>Brand</td>
             <td>Products count</td>
@@ -18,7 +22,7 @@
         {% endfor %}
     </table>
     <br>
-    <table border="1">
+    <table>
         <tr>
             <td>Title</td>
             <td>Brand</td>
@@ -37,7 +41,7 @@
         {% endfor %}
     </table>
     <br>
-    <table border="1">
+    <table>
         <tr>
             <td>Title</td>
             <td>Brand</td>
@@ -56,17 +60,24 @@
         {% endfor %}
     </table>
     <br>
-    <table border="1">
+    <table>
         <tr>
             <td>Color</td>
             <td>Percentage</td>
         </tr>
         {% for color, percent in per_ratio %}
             {% if percent > 0.0 %}
-                <tr>
-                    <td>{{ color }}</td>
-                    <td>{{ percent }} %</td>
-                </tr>
+                {% if color %}
+                    <tr>
+                        <td>{{ color }}</td>
+                        <td>{{ percent }} %</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>-</td>
+                        <td>{{ percent }} %</td>
+                    </tr>
+                {% endif %}
             {% endif %}
         {% endfor %}
     </table>
@@ -77,7 +88,7 @@
         The withdrawal form is arbitrary: {{ famous_word }}
     </p>
     <br>
-    <table border="1">
+    <table>
         <tr>
             <td>Title</td>
             <td>Brands count</td>
