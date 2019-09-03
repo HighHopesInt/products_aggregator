@@ -62,10 +62,12 @@
             <td>Percentage</td>
         </tr>
         {% for color, percent in per_ratio %}
-            <tr>
-                <td>{{ color }}</td>
-                <td>{{ percent }} %</td>
-            </tr>
+            {% if percent > 0.0 %}
+                <tr>
+                    <td>{{ color }}</td>
+                    <td>{{ percent }} %</td>
+                </tr>
+            {% endif %}
         {% endfor %}
     </table>
     <br>
@@ -75,7 +77,6 @@
         The withdrawal form is arbitrary: {{ famous_word }}
     </p>
     <br>
-
     <table border="1">
         <tr>
             <td>Title</td>
@@ -90,5 +91,4 @@
             </tr>
         {% endfor %}
     </table>
-<!--    {{ retailer_stat }}-->
 {% endblock %}
