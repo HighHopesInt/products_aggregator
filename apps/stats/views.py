@@ -9,10 +9,11 @@ def stats(request):
     count = Product.objects.all().count()
     top_brand = (Brand.objects.annotate(num=Count('products'))
                  .order_by('-num').values_list('name', 'num'))[:5]
-    top_male_boot = (Product.objects.filter(gender='Men').order_by('-price')
+    top_male_boot = (Product.objects.filter(gender__iexact='men')
+                     .order_by('-price')
                      .values_list('title', 'brand__name', 'color__name',
                                   'price', 'sale_price').distinct())[:3]
-    top_female_boot = (Product.objects.filter(gender='Women')
+    top_female_boot = (Product.objects.filter(gender__iexact='women')
                        .order_by('-price')
                        .values_list('title', 'brand__name', 'color__name',
                                     'price', 'sale_price').distinct())[:3]

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <p>Here will statistics</p>
+    <h1>Statistics page</h1>
     <p>Total amount of goods: {{ count }}</p>
     <table>
         <tr>
@@ -22,43 +22,53 @@
         {% endfor %}
     </table>
     <br>
-    <table>
-        <tr>
-            <td>Title</td>
-            <td>Brand</td>
-            <td>Color</td>
-            <td>Price</td>
-            <td>Sale price</td>
-        </tr>
-        {% for title, brand, color, price, sale_price in top_male_boot %}
+    <h3>Stats for male boots</h3>
+    {% if top_male_boot %}
+        <table>
             <tr>
-                <td>{{ title }}</td>
-                <td>{{ brand }}</td>
-                <td>{{ color }}</td>
-                <td>{{ price }}</td>
-                <td>{{ sale_price }}</td>
+                <td>Title</td>
+                <td>Brand</td>
+                <td>Color</td>
+                <td>Price</td>
+                <td>Sale price</td>
             </tr>
-        {% endfor %}
-    </table>
+            {% for title, brand, color, price, sale_price in top_male_boot %}
+                <tr>
+                    <td>{{ title }}</td>
+                    <td>{{ brand }}</td>
+                    <td>{{ color }}</td>
+                    <td>{{ price }}</td>
+                    <td>{{ sale_price }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>There not statistic</p>
+    {% endif %}
     <br>
-    <table>
-        <tr>
-            <td>Title</td>
-            <td>Brand</td>
-            <td>Color</td>
-            <td>Price</td>
-            <td>Sale price</td>
-        </tr>
-        {% for title, brand, color, price, sale_price in top_female_boot %}
+    <h3>Stats for female boots</h3>
+    {% if top_female_boot %}
+        <table>
             <tr>
-                <td>{{ title }}</td>
-                <td>{{ brand }}</td>
-                <td>{{ color }}</td>
-                <td>{{ price }}</td>
-                <td>{{ sale_price }}</td>
+                <td>Title</td>
+                <td>Brand</td>
+                <td>Color</td>
+                <td>Price</td>
+                <td>Sale price</td>
             </tr>
-        {% endfor %}
-    </table>
+            {% for title, brand, color, price, sale_price in top_female_boot %}
+                <tr>
+                    <td>{{ title }}</td>
+                    <td>{{ brand }}</td>
+                    <td>{{ color }}</td>
+                    <td>{{ price }}</td>
+                    <td>{{ sale_price }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>There not statistics</p>
+    {% endif %}
     <br>
     <table>
         <tr>
@@ -84,8 +94,8 @@
     <br>
     <p>
         The number of product
-        positions in the description of which is the word "famous".
-        The withdrawal form is arbitrary: {{ famous_word }}
+        positions in the description of which is the word "famous":
+        {{ famous_word }}
     </p>
     <br>
     <table>
