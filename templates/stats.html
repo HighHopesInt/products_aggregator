@@ -22,7 +22,7 @@
         {% endfor %}
     </table>
     <br>
-    <h3>Stats for male boots</h3>
+    <h3>Most expensive men's shoes</h3>
     {% if top_male_boot %}
         <table>
             <tr>
@@ -46,7 +46,7 @@
         <p>There not statistic</p>
     {% endif %}
     <br>
-    <h3>Stats for female boots</h3>
+    <h3>Most expensive men's shoes</h3>
     {% if top_female_boot %}
         <table>
             <tr>
@@ -76,18 +76,16 @@
             <td>Percentage</td>
         </tr>
         {% for color, percent in per_ratio %}
-            {% if percent > 0.0 %}
-                {% if color %}
-                    <tr>
-                        <td>{{ color }}</td>
-                        <td>{{ percent }} %</td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td>-</td>
-                        <td>{{ percent }} %</td>
-                    </tr>
-                {% endif %}
+            {% if color %}
+                <tr>
+                    <td>{{ color }}</td>
+                    <td>{{ percent }} %</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>-</td>
+                    <td>{{ percent }} %</td>
+                </tr>
             {% endif %}
         {% endfor %}
     </table>
