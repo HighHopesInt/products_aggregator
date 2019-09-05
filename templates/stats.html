@@ -2,45 +2,53 @@
 
 {% load static %}
 
-{% block addi_css %}
-    <link rel="stylesheet" href="{% static 'css/statistics.css' %}">
+{% block bootstrap %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 {% endblock %}
 
 {% block content %}
     <h1>Statistics page</h1>
     <p>Total amount of goods: {{ count }}</p>
-    <table>
-        <tr>
-            <td>Brand</td>
-            <td>Products count</td>
-        </tr>
-        {% for brand, num in top_brand %}
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
             <tr>
-                <td>{{ brand }}</td>
-                <td>{{ num }}</td>
+                <td>Brand</td>
+                <td>Products count</td>
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+        {% for brand, num in top_brand %}
+                <tr>
+                    <td>{{ brand }}</td>
+                    <td>{{ num }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
     <br>
     <h3>Most expensive men's shoes</h3>
     {% if top_male_boot %}
-        <table>
-            <tr>
-                <td>Title</td>
-                <td>Brand</td>
-                <td>Color</td>
-                <td>Price</td>
-                <td>Sale price</td>
-            </tr>
-            {% for title, brand, color, price, sale_price in top_male_boot %}
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ title }}</td>
-                    <td>{{ brand }}</td>
-                    <td>{{ color }}</td>
-                    <td>{{ price }}</td>
-                    <td>{{ sale_price }}</td>
+                    <td>Title</td>
+                    <td>Brand</td>
+                    <td>Color</td>
+                    <td>Price</td>
+                    <td>Sale price</td>
                 </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
+                {% for title, brand, color, price, sale_price in top_male_boot %}
+                    <tr>
+                        <td>{{ title }}</td>
+                        <td>{{ brand }}</td>
+                        <td>{{ color }}</td>
+                        <td>{{ price }}</td>
+                        <td>{{ sale_price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
     {% else %}
         <p>There not statistic</p>
@@ -48,52 +56,60 @@
     <br>
     <h3>Most expensive men's shoes</h3>
     {% if top_female_boot %}
-        <table>
-            <tr>
-                <td>Title</td>
-                <td>Brand</td>
-                <td>Color</td>
-                <td>Price</td>
-                <td>Sale price</td>
-            </tr>
-            {% for title, brand, color, price, sale_price in top_female_boot %}
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ title }}</td>
-                    <td>{{ brand }}</td>
-                    <td>{{ color }}</td>
-                    <td>{{ price }}</td>
-                    <td>{{ sale_price }}</td>
+                    <td>Title</td>
+                    <td>Brand</td>
+                    <td>Color</td>
+                    <td>Price</td>
+                    <td>Sale price</td>
                 </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
+                {% for title, brand, color, price, sale_price in top_female_boot %}
+                    <tr>
+                        <td>{{ title }}</td>
+                        <td>{{ brand }}</td>
+                        <td>{{ color }}</td>
+                        <td>{{ price }}</td>
+                        <td>{{ sale_price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
     {% else %}
         <p>There not statistics</p>
     {% endif %}
     <br>
-    <table>
-        <tr>
-            <td>Color</td>
-            <td>Percentage</td>
-        </tr>
-        {% for color, percent in per_ratio %}
-            {% if color %}
-                {% if percent > 1.0 %}
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <td>Color</td>
+                <td>Percentage</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for color, percent in per_ratio %}
+                {% if color %}
+                    {% if percent > 1.0 %}
+                        <tr>
+                            <td>{{ color }}</td>
+                            <td>{{ percent }} %</td>
+                        </tr>
+                    {% endif %}
+                {% else %}
                     <tr>
-                        <td>{{ color }}</td>
+                        <td>-</td>
                         <td>{{ percent }} %</td>
                     </tr>
                 {% endif %}
-            {% else %}
-                <tr>
-                    <td>-</td>
-                    <td>{{ percent }} %</td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-        <tr>
-            <td>Other</td>
-            <td>{{ other_percent }} %</td>
-        </tr>
+            {% endfor %}
+            <tr>
+                <td>Other</td>
+                <td>{{ other_percent }} %</td>
+            </tr>
+        </tbody>
     </table>
     <br>
     <p>
@@ -102,18 +118,22 @@
         {{ famous_word }}
     </p>
     <br>
-    <table>
-        <tr>
-            <td>Title</td>
-            <td>Brands count</td>
-            <td>Products count</td>
-        </tr>
-        {% for retailer, brand_of, number_of in retailer_stat %}
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
             <tr>
-                <td>{{ retailer }}</td>
-                <td>{{ brand_of }}</td>
-                <td>{{ number_of }}</td>
+                <td>Title</td>
+                <td>Brands count</td>
+                <td>Products count</td>
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for retailer, brand_of, number_of in retailer_stat %}
+                <tr>
+                    <td>{{ retailer }}</td>
+                    <td>{{ brand_of }}</td>
+                    <td>{{ number_of }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
