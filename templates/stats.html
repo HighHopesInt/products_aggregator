@@ -7,16 +7,16 @@
 {% endblock %}
 
 {% block addi_css %}
-    <link rel="stylesheet" href="{% static 'css/statistics.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/statistics.css' %}">
 {% endblock %}
 
 {% block content %}
     <h1>Statistics page</h1>
-    <p>Total amount of goods: {{ count }}</p>
-    <h3 align="center">Popular Products by Product Number</h3>
+    <p class="text-information">Total amount of goods: {{ count }}</p>
+    <h3>Popular Products by Product Number</h3>
     <table class="table table-striped table-hover table-bordered">
         <caption>Popular Products by Product Number</caption>
-        <thead class="table">
+        <thead class="thead-light">
             <tr>
                 <th>Brand</th>
                 <th>Products count</th>
@@ -32,7 +32,7 @@
         </tbody>
     </table>
     <br>
-    <h3 align="center">Most expensive men's shoes</h3>
+    <h3>Most expensive men's shoes</h3>
     {% if top_male_boot %}
         <table class="table table-striped table-hover table-bordered">
             <caption>Most expensive men's shoes</caption>
@@ -61,7 +61,7 @@
         <p>There not statistic</p>
     {% endif %}
     <br>
-    <h3 align="center">Most expensive men's shoes</h3>
+    <h3>Most expensive men's shoes</h3>
     {% if top_female_boot %}
         <table class="table table-striped table-hover table-bordered">
             <caption>Most expensive men's shoes</caption>
@@ -90,7 +90,7 @@
         <p>There not statistics</p>
     {% endif %}
     <br>
-    <h3 align="center">Color ratio in percent</h3>
+    <h3>Color ratio in percent</h3>
     <table class="table table-striped table-hover table-bordered">
         <caption>Color ratio in percent</caption>
         <thead class="thead-light">
@@ -124,16 +124,16 @@
         </tbody>
     </table>
     <br>
-    <p>
+    <p class="text-information">
         The number of product
         positions in the description of which is the word "famous":
         {{ famous_word }}
     </p>
     <br>
-    <h3 align="center">Retailer Summary</h3>
+    <h3>Retailer Summary</h3>
     <table class="table table-striped table-hover table-bordered">
         <caption>Retailer Summary</caption>
-        <thead class="thead">
+        <thead class="thead-light">
             <tr>
                 <th>Title</th>
                 <th>Brands count</th>
