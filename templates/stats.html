@@ -77,10 +77,12 @@
         </tr>
         {% for color, percent in per_ratio %}
             {% if color %}
-                <tr>
-                    <td>{{ color }}</td>
-                    <td>{{ percent }} %</td>
-                </tr>
+                {% if percent > 1.0 %}
+                    <tr>
+                        <td>{{ color }}</td>
+                        <td>{{ percent }} %</td>
+                    </tr>
+                {% endif %}
             {% else %}
                 <tr>
                     <td>-</td>
@@ -88,6 +90,10 @@
                 </tr>
             {% endif %}
         {% endfor %}
+        <tr>
+            <td>Other</td>
+            <td>{{ other_percent }} %</td>
+        </tr>
     </table>
     <br>
     <p>
