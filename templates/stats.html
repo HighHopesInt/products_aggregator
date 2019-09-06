@@ -50,9 +50,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for title, brand, color, price, sale_price in top_male_boot %}
+                {% for title, brand, color, price, sale_price, id in top_male_boot %}
                     <tr>
-                        <td>{{ title }}</td>
+                        <td><a href="{% url 'product_detail' pk=id %}">{{ title }}</a></td>
                         <td>{{ brand }}</td>
                         <td>{{ color }}</td>
                         <td>{{ price }}</td>
@@ -79,9 +79,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for title, brand, color, price, sale_price in top_female_boot %}
+                {% for title, brand, color, price, sale_price, id in top_female_boot %}
                     <tr>
-                        <td>{{ title }}</td>
+                        <td><a href="{% url 'product_detail' pk=id %}">{{ title }}</a></td>
                         <td>{{ brand }}</td>
                         <td>{{ color }}</td>
                         <td>{{ price }}</td>

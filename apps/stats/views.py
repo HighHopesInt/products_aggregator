@@ -12,11 +12,13 @@ def stats(request):
     top_male_boot = (Product.objects.filter(gender__iexact='men')
                      .order_by('-price')
                      .values_list('title', 'brand__name', 'color__name',
-                                  'price', 'sale_price').distinct())[:3]
+                                  'price', 'sale_price', 'id')
+                     .distinct())[:3]
     top_female_boot = (Product.objects.filter(gender__iexact='women')
                        .order_by('-price')
                        .values_list('title', 'brand__name', 'color__name',
-                                    'price', 'sale_price').distinct())[:3]
+                                    'price', 'sale_price', 'id')
+                       .distinct())[:3]
     per_ratio = (Product.objects.values('color').annotate(
                     num=ExpressionWrapper(
                         Count('title') * 100 / float(products_count),
@@ -33,6 +35,7 @@ def stats(request):
                          brand_of=Count('brand', distinct=True))
                 .order_by('retailer__name')
                 .values_list('retailer__name', 'brand_of', 'prod_of'))
+    print(type(top_female_boot))
     context = {
         'count': products_count,
         'top_brand': top_brand,
