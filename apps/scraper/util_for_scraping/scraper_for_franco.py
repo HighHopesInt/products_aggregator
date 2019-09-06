@@ -7,7 +7,6 @@ from selenium import webdriver
 
 from .meta_data_for_scraping import intermediate_dictionary
 
-
 path_to_driver = str(Path.home()) + '/driver/chromedriver'
 
 
@@ -33,8 +32,10 @@ def scraper_franco():
     browser.get('https://www.francosarto.com/en-US/_/_/_/'
                 'Wedges/_/Products.aspx?icid=TopNav_Wedges')
     time.sleep(3)
+
     bs_base = BeautifulSoup(browser.page_source, 'html.parser')
     browser.close()
+
     for index, prod in enumerate(bs_base.findAll('div', {
         'id': re.compile('^p-([0-9])*$')
     })):
@@ -51,11 +52,13 @@ def scraper_franco():
         print(link)
         intermediate_dictionary['URL'].append(link)
         intermediate_dictionary['Subcategory'].append(
-            bs_base.find('a', {'href': re.compile('Products.aspx$'),
-                               'class': 'active'}).get_text())
+            bs_base.find('a',
+                         {'href': re.compile('Products.aspx$'),
+                          'class': 'active'})
+            .get_text())
         bs_product = get_product(link)
-        categories = bs_product.find('span', {'class': 'runa_command'}) \
-            .attrs['categories']
+        categories = (bs_product.find('span', {'class': 'runa_command'})
+                      .attrs['categories'])
         categories = categories.split(',')
         index_cate = categories.index('Wedges')
         if index_cate == len(categories) - 1:
@@ -66,13 +69,16 @@ def scraper_franco():
                 categories[index_cate + 1])
         intermediate_dictionary['Brand'].append(
             bs_product.find('meta', {'property': 'og:brand'
-                                     }).attrs['content'])
+                                     })
+            .attrs['content'])
         intermediate_dictionary['Color'].append(
             bs_product.find('meta', {'property': 'product:color'
-                                     }).attrs['content'])
+                                     })
+            .attrs['content'])
         sizes = []
         for size in bs_product.find('div', {'id': 'details-sizes'}
-                                    ).children:
+                                    )\
+                .children:
             if 'class' in size.attrs:
                 sizes.append(size.get_text())
         del sizes[-1]
@@ -98,7 +104,7 @@ def scraper_franco():
             'on ' + intermediate_dictionary['Material'][index])
         intermediate_dictionary['Title'].append(
             bs_product.find('span', {'itemprop': 'name'}).get_text()
-                                                         .strip())
+            .strip())
         intermediate_dictionary['Short Description'].append(
             'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
             intermediate_dictionary['Brand'][index] + ' on ' +

@@ -95,8 +95,8 @@ class Product(models.Model):
         if not self.image_url:
             return False
         correct_ext = ['.jpeg', '.jpg', '.png']
-        if not any([str(self.image_url).endswith(ext)
-                    for ext in correct_ext]):
+        check = [str(self.image_url).endswith(ext) for ext in correct_ext]
+        if not any(check):
             return False
         r = requests.get(self.image_url, headers=headers)
         return r.status_code == requests.codes.ok

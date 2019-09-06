@@ -59,8 +59,8 @@ def scraper_saks():
             intermediate_dictionary['Color'].append(color.get_text())
         else:
             intermediate_dictionary['Color'].append('')
-        intermediate_dictionary['Sale Price'] = \
-            intermediate_dictionary['Price']
+        intermediate_dictionary['Sale Price'] = (
+            intermediate_dictionary['Price'])
         intermediate_dictionary['Brand'].append(bsobj_product.find('a', {
             'class': 'product-overview__brand-link'
         }).get_text())
