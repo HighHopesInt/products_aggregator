@@ -27,7 +27,7 @@ def stats(request):
     other_percent = [percent[1] for percent in per_ratio
                      if not isinstance(percent[1], type(None))
                      and percent[1] < 1.0]
-    other_percent = round(sum(other_percent), 4)
+    other_percent = sum(other_percent)
     famous_stat = (Product.objects.filter(description__icontains='famous')
                    .count())
     ret_stat = (Product.objects.values('retailer').
