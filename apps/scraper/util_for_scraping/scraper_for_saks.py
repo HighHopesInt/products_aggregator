@@ -3,7 +3,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-from .meta_data_for_scraping import headers, intermediate_dictionary
+from .meta_data_for_scraping import headers, inter_dict
 from .valutate import get_current_usd
 
 
@@ -18,50 +18,50 @@ def scraper_saks():
             bsobj_base_site.findAll(
                 'div', {'id': re.compile('^product-([0-9])*$')}
             )):
-        intermediate_dictionary['Free Shipping'].append('FALSE')
-        intermediate_dictionary['Available'].append('TRUE')
-        intermediate_dictionary['Retailer Name'].append(list(
+        inter_dict['Free Shipping'].append('FALSE')
+        inter_dict['Available'].append('TRUE')
+        inter_dict['Retailer Name'].append(list(
             bsobj_base_site.find('a',
                                  {'class': 'hbc-header__logo'}).children
         )[0].get_text())
-        intermediate_dictionary['Main Category'].append(list(
+        inter_dict['Main Category'].append(list(
             bsobj_base_site.find('a', {'id': 'bc-306418052'}).children
         )[0].get_text() + ' Shoes')
-        intermediate_dictionary['Subcategory'].append(
+        inter_dict['Subcategory'].append(
             bsobj_base_site.find(
                 'a', {'id': 'category-306418205'}
             ).get_text().strip())
-        intermediate_dictionary['SubSubcategory'].append(
+        inter_dict['SubSubcategory'].append(
             bsobj_base_site.find(
                 'a', {'id': 'refinement-306420996'}
             ).get_text().strip())
-        intermediate_dictionary['Gender'].append(list(
+        inter_dict['Gender'].append(list(
             bsobj_base_site.find('a', {'id': 'bc-306418052'}).children
         )[0].get_text())
         link = item['data-url']
         print(link)
-        intermediate_dictionary['Image URL'].append(item['data-image'])
+        inter_dict['Image URL'].append(item['data-image'])
         bsobj_product = get_product_url(link)
-        intermediate_dictionary['URL'].append(link)
+        inter_dict['URL'].append(link)
         price = bsobj_product.find('span', {'itemprop':
                                             re.compile('[P|p]rice$')})
         if price:
             price = price.attrs['content']
 
-            intermediate_dictionary['Price'].append(price)
-            intermediate_dictionary['Price'][index] = int(float(
-                intermediate_dictionary['Price'][index])) // int(
+            inter_dict['Price'].append(price)
+            inter_dict['Price'][index] = int(float(
+                inter_dict['Price'][index])) // int(
                 get_current_usd())
         else:
-            intermediate_dictionary['Price'].append('')
+            inter_dict['Price'].append('')
         color = bsobj_product.find('dd', {'class': re.compile('^product-var')})
         if color:
-            intermediate_dictionary['Color'].append(color.get_text())
+            inter_dict['Color'].append(color.get_text())
         else:
-            intermediate_dictionary['Color'].append('')
-        intermediate_dictionary['Sale Price'] = (
-            intermediate_dictionary['Price'])
-        intermediate_dictionary['Brand'].append(bsobj_product.find('a', {
+            inter_dict['Color'].append('')
+        inter_dict['Sale Price'] = (
+            inter_dict['Price'])
+        inter_dict['Brand'].append(bsobj_product.find('a', {
             'class': 'product-overview__brand-link'
         }).get_text())
         size = bsobj_product.find('div', {'class': 'product-size-options'})
@@ -77,36 +77,33 @@ def scraper_saks():
                                                                        ''))
         else:
             size_product.append('')
-        intermediate_dictionary['Size'].append(size_product)
-        intermediate_dictionary['Material'].append(bsobj_product.find(
+        inter_dict['Size'].append(size_product)
+        inter_dict['Material'].append(bsobj_product.find(
             'div', {'itemprop': 'description'}
-        ).find('ul').find('li').get_text().replace(' upper', ''))
-        intermediate_dictionary['Title'].append(bsobj_product.find(
+            ).find('ul').find('li').get_text().replace(' upper', ''))
+        inter_dict['Title'].append(bsobj_product.find(
             'h1', {'class': 'product-overview__short-description'}
-        ).get_text())
+            ).get_text())
         if isinstance(bsobj_product.find('div', {'itemprop':
                                                  'description'}
                                          ).contents[0], str):
-            intermediate_dictionary['Description'].append(
+            inter_dict['Description'].append(
                 bsobj_product.find(
-                    'div', {'itemprop': 'description'}
-                ).contents[0])
+                    'div', {'itemprop': 'description'}).contents[0])
         else:
-            intermediate_dictionary['Description'].append(
-             'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
-             intermediate_dictionary['Brand'][index]
-            )
-        intermediate_dictionary['Short Description'].append(
-            'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
-            intermediate_dictionary['Brand'][index] + ' in ' +
-            intermediate_dictionary['Color'][index]
-        )
-        intermediate_dictionary['Meta Description'].append(
-            'Buy' + str(intermediate_dictionary['Description'][index]) +
-            'on ' + str(intermediate_dictionary['Material'][index]))
-        intermediate_dictionary['Meta Title'] = \
-            intermediate_dictionary['Title']
-    return intermediate_dictionary
+            inter_dict['Description'].append(
+             'Product ' + inter_dict['Title'][index] + ' by ' +
+             inter_dict['Brand'][index])
+        inter_dict['Short Description'].append(
+            'Product ' + inter_dict['Title'][index] + ' by ' +
+            inter_dict['Brand'][index] + ' in ' +
+            inter_dict['Color'][index])
+        inter_dict['Meta Description'].append(
+            'Buy' + str(inter_dict['Description'][index]) +
+            'on ' + str(inter_dict['Material'][index]))
+        inter_dict['Meta Title'] = \
+            inter_dict['Title']
+    return inter_dict
 
 
 def get_product_url(link):

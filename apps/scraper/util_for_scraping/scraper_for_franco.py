@@ -5,7 +5,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-from .meta_data_for_scraping import intermediate_dictionary
+from .meta_data_for_scraping import inter_dict
 
 path_to_driver = str(Path.home()) + '/driver/chromedriver'
 
@@ -39,19 +39,19 @@ def scraper_franco():
     for index, prod in enumerate(bs_base.findAll('div', {
         'id': re.compile('^p-([0-9])*$')
     })):
-        intermediate_dictionary['Retailer Name'].append('FrancoSarto')
-        intermediate_dictionary['Free Shipping'].append('TRUE')
-        intermediate_dictionary['Available'].append('TRUE')
-        intermediate_dictionary['Gender'].append('women')
-        intermediate_dictionary['Main Category'].append(
-            intermediate_dictionary['Gender'][index].title() + '\'s' +
+        inter_dict['Retailer Name'].append('FrancoSarto')
+        inter_dict['Free Shipping'].append('TRUE')
+        inter_dict['Available'].append('TRUE')
+        inter_dict['Gender'].append('women')
+        inter_dict['Main Category'].append(
+            inter_dict['Gender'][index].title() + '\'s' +
             ' Shoes')
         link = 'https://www.francosarto.com' + \
                prod.find('div', {
                    'class': 'productBrandTitleColor'}).a['href']
         print(link)
-        intermediate_dictionary['URL'].append(link)
-        intermediate_dictionary['Subcategory'].append(
+        inter_dict['URL'].append(link)
+        inter_dict['Subcategory'].append(
             bs_base.find('a',
                          {'href': re.compile('Products.aspx$'),
                           'class': 'active'})
@@ -62,68 +62,67 @@ def scraper_franco():
         categories = categories.split(',')
         index_cate = categories.index('Wedges')
         if index_cate == len(categories) - 1:
-            intermediate_dictionary['SubSubcategory'].append(
+            inter_dict['SubSubcategory'].append(
                 categories[index_cate - 1])
         else:
-            intermediate_dictionary['SubSubcategory'].append(
+            inter_dict['SubSubcategory'].append(
                 categories[index_cate + 1])
-        intermediate_dictionary['Brand'].append(
-            bs_product.find('meta', {'property': 'og:brand'
-                                     })
+        inter_dict['Brand'].append(
+            bs_product.find('meta', {'property': 'og:brand'})
             .attrs['content'])
-        intermediate_dictionary['Color'].append(
-            bs_product.find('meta', {'property': 'product:color'
-                                     })
+        inter_dict['Color'].append(
+            bs_product.find('meta', {'property': 'product:color'})
             .attrs['content'])
         sizes = []
-        for size in bs_product.find('div', {'id': 'details-sizes'}
-                                    )\
-                .children:
+        for size in (bs_product.find('div', {'id': 'details-sizes'})
+                     .children):
             if 'class' in size.attrs:
                 sizes.append(size.get_text())
         del sizes[-1]
-        intermediate_dictionary['Size'].append(sizes)
+        inter_dict['Size'].append(sizes)
         material = bs_product.find('span', {'itemprop': 'description'})
         if material:
             if material.find('ul'):
                 material = material.find('li')
                 material = material.get_text().split()
-                intermediate_dictionary['Material'].append(
+                inter_dict['Material'].append(
                     str(material[0]))
             else:
-                intermediate_dictionary['Material'].append(
+                inter_dict['Material'].append(
                     'Not specified')
         else:
-            intermediate_dictionary['Material'].append(
+            inter_dict['Material'].append(
                 'Not specified')
-        intermediate_dictionary['Description'].append(
+        inter_dict['Description'].append(
             bs_product.find('span', {'itemprop': 'description'}
                             ).find('p').get_text())
-        intermediate_dictionary['Meta Description'].append(
-            'Buy ' + intermediate_dictionary['Description'][index] +
-            'on ' + intermediate_dictionary['Material'][index])
-        intermediate_dictionary['Title'].append(
+        inter_dict['Meta Description'].append(
+            'Buy ' + inter_dict['Description'][index] +
+            'on ' + inter_dict['Material'][index])
+        inter_dict['Title'].append(
             bs_product.find('span', {'itemprop': 'name'}).get_text()
             .strip())
-        intermediate_dictionary['Short Description'].append(
-            'Product ' + intermediate_dictionary['Title'][index] + ' by ' +
-            intermediate_dictionary['Brand'][index] + ' on ' +
-            intermediate_dictionary['Color'][index]
+        inter_dict['Short Description'].append(
+            'Product ' + inter_dict['Title'][index] + ' by ' +
+            inter_dict['Brand'][index] + ' on ' +
+            inter_dict['Color'][index]
         )
-        intermediate_dictionary['Meta Title'] = \
-            intermediate_dictionary['Title']
-        intermediate_dictionary['Image URL'].append(
+        # Meta title equal main title
+        inter_dict['Meta Title'] = (
+            inter_dict['Title'])
+        inter_dict['Image URL'].append(
             'https://www.francosarto.com' +
             bs_product.find('img', {'itemprop': 'image'}).attrs[
                 'src'].replace('?preset=details', ''))
-        intermediate_dictionary['Price'].append(int(float(
+        inter_dict['Price'].append(int(float(
             bs_product.find('span', {'class': 'price'})
             .get_text().strip().replace('$', ''))))
         sale_price = bs_product.find('span', {'class': 'red price'})
         if sale_price:
-            intermediate_dictionary['Sale Price'].append(int(float(
+            inter_dict['Sale Price'].append(int(float(
                 sale_price.get_text().strip().replace('$', ''))))
         else:
-            intermediate_dictionary['Sale Price'] = \
-                intermediate_dictionary['Price']
-    return intermediate_dictionary
+            # If sale price does not exist
+            inter_dict['Sale Price'] = (
+                inter_dict['Price'])
+    return inter_dict

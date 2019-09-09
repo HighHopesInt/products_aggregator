@@ -6,7 +6,7 @@ from apps.scraper.forms import ChooseSiteForm
 from apps.scraper import tasks
 
 
-def chose_site_admin(request):
+def choose_site_admin(request):
     form = ChooseSiteForm(request.POST)
     if request.method == 'POST':
         if form.is_valid():
@@ -21,4 +21,4 @@ def chose_site_admin(request):
                 messages.error(request, 'You don\'t choice site')
             return HttpResponseRedirect('/admin/main/uploadedfile/')
     context = {'form': form}
-    return render(request, 'scraper/chose_sites.html', context)
+    return render(request, 'scraper/choose_sites.html', context)

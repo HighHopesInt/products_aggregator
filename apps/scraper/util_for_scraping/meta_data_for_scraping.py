@@ -1,4 +1,4 @@
-intermediate_dictionary = {
+inter_dict = {
     'URL': [],
     'Gender': [],
     'Main Category': [],
