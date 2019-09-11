@@ -27,10 +27,9 @@ def get_product(link):
     return BeautifulSoup(html, 'html.parser')
 
 
-def scraper_franco():
+def scraper_franco(url):
     browser = open_browser()
-    browser.get('https://www.francosarto.com/en-US/_/_/_/'
-                'Wedges/_/Products.aspx?icid=TopNav_Wedges')
+    browser.get(url=url)
     time.sleep(3)
 
     bs_base = BeautifulSoup(browser.page_source, 'html.parser')

@@ -7,9 +7,8 @@ from .meta_data_for_scraping import headers, inter_dict
 from .valutate import get_current_usd
 
 
-def scraper_saks():
-    base_url = ('https://www.saksfifthavenue.com'
-                '/Men/Shoes/Boots/shop/_/N-52fnyc/Ne-6lvnb5')
+def scraper_saks(url):
+    base_url = url
     request_to_base_url = requests.get(base_url, headers=headers,
                                        timeout=20)
     bsobj_base_site = BeautifulSoup(request_to_base_url.text,
