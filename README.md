@@ -66,6 +66,6 @@ Please, if you find any error, your issues are welcome.
 If you want to run the project through Docker, then follow these steps:
 
 1. Complete first four steps from **Install project**;
-2. Copy `var/lib/mysql/*` to `/srv/mysql/`;
-3. Install docker. If you don't know how do it you can view Offical documention at [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/)
+2. Copy `/var/lib/mysql/*` to `/srv/mysql/`;
+3. Install docker. If you don't know how do it you can view Offical documention at [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/);
 4. Run `docker-compose up -build`.
