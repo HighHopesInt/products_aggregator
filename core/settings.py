@@ -136,7 +136,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    str(Path.home()) + '/products_aggregator/static/',
+    BASE_DIR + '/static/',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")

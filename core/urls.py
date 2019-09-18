@@ -24,6 +24,7 @@ urlpatterns = [
 
     path('', include('apps.main.urls')),
 
+    path('stats/', include('apps.stats.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns() + \
