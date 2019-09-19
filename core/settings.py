@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 from pathlib import Path
+import environ
+
+env = environ.Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,6 +36,7 @@ ALLOWED_HOSTS = ['*']
 
 APPS = [
     'apps.main',
+    'apps.scraper',
 ]
 
 PACKAGES = [
@@ -141,3 +145,5 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = '/media/'
+
+SCRAPER_DIR = env.str('SCRAPER_DIR', default='/tmp/')

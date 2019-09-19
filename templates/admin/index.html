@@ -1,0 +1,12 @@
+{% extends 'admin/index.html' %}
+{% comment %}{% block extrastyle %}
+    {{ block.super }}
+{% endblock %}{% endcomment %}
+{% block content %}
+    <div class="module">
+        <p>
+            <a href="{% url 'scraper_sites' %}">Scraper tests sites</a>
+        </p>
+    </div>
+    {{ block.super }}
+{% endblock %}

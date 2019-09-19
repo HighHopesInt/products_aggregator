@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+    <form method="post">
+        <fieldset class="module">
+            <h2>Chose scraping sites</h2>
+                {% csrf_token %}
+                {{ form.as_p }}
+            <input type="submit">
+        </fieldset>
+    </form>
+{% endblock %}

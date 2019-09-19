@@ -1,7 +1,5 @@
-import os
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management.base import BaseCommand
-from apps.main.models import UploadedFile
+from apps.main.main_utils import save_file
 
 
 class Command(BaseCommand):
@@ -15,19 +13,7 @@ class Command(BaseCommand):
             if not options['file']:
                 raise ValueError
             for item in options['file']:
-                if os.path.isdir(item):
-                    for filename in os.listdir(item):
-                        with open(item + filename, 'rb') as f:
-                            data_file = SimpleUploadedFile(name=f.name,
-                                                           content=f.read())
-                        UploadedFile.objects.all().create(file=data_file)
-                        self.stdout.write(item + filename + ' upload success')
-                else:
-                    with open(item, 'rb') as f:
-                        data_file = SimpleUploadedFile(name=f.name,
-                                                       content=f.read())
-                    UploadedFile.objects.all().create(file=data_file)
-                    self.stdout.write(item + ' upload success')
+                save_file(item)
         except FileNotFoundError:
             print('Not Found File')
         except ValueError:

@@ -25,7 +25,10 @@ else:
                           config('DJANGO_SETTINGS_MODULE',
                                  default='core.settings_dev'))
 
-app = Celery('core', broker='amqp://', include=['apps.main.tasks'])
+app = Celery('core',
+             broker='amqp://',
+             include=['apps.main.tasks', 'apps.scraper.tasks'],
+             backend='rpc://')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
