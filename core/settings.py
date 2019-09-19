@@ -29,7 +29,7 @@ SECRET_KEY = '=g_zhmau$w=07y1k4xo)h0qdsnbga_65bjm$qa&o&ym@sds%_r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,7 +140,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    str(Path.home()) + '/products_aggregator/static/',
+    BASE_DIR + '/static/',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")

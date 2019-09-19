@@ -27,6 +27,8 @@ urlpatterns = [
     path('', include('apps.main.urls')),
 
     path('scraper/', include('apps.scraper.urls')),
+
+    path('stats/', include('apps.stats.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns() + \

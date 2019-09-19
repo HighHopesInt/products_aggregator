@@ -1,26 +1,22 @@
 language: python
 
-services: mysql
+services: 
+  - mysql
 
 env:
   global:
-    - DJANGO_SEETINGS_MODULE='core.settings_dev'
     - BUILD_ON_TRAVIS=true
     - PIP_USE_MIRRORS=true
-
-  matrix:
-    - DJANGO=2.0.12 DB=mysql
+    - DJANGO=2.0.12
+    - DB=mysql
 
 python:
   - "3.6"
 
 install:
-  - pip install -q DJANGO==$DJANGO
   - pip install -r requirements.txt
 
-matrix:
-  include:
-    - python: "3.6"
-      script:
-        - "flake8 --exclude=manage.py,./apps/main/migrations/,./core/settings.py,./apps/scraper/migrations/"
-        - "python3 manage.py test"
+script:
+  - "flake8 --exclude=manage.py,./apps/main/migrations/,./core/settings.py"
+  - "python3 manage.py test"
+

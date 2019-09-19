@@ -70,7 +70,8 @@ class Product(models.Model):
                                  on_delete=models.SET_NULL,
                                  blank=True)
 
-    brand = models.ForeignKey('Brand', on_delete=models.PROTECT)
+    brand = models.ForeignKey('Brand', on_delete=models.PROTECT,
+                              related_name='products')
     color = models.ForeignKey('Color', null=True,
                               on_delete=models.SET_NULL,
                               blank=True)
