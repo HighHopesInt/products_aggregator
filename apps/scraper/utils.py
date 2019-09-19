@@ -1,10 +1,10 @@
 def set_field_html_name(cls, new_name):
     """
     This function set name of field in generate html-code.
-    Use his if you want special name for you html-element 
+    Use it if you want special name for you html-element 
     which generates django.
 
-    cls: name for object in forms of Django
+    cls: name of object in forms of Django
     new_name: name which you want set for cls
     """
     old_render = cls.widget.render
