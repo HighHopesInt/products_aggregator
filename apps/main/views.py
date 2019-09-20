@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import (ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
 from rest_framework.generics import get_object_or_404
 
 from apps.main.models import (Category, Product, Color, Brand,
@@ -69,3 +70,8 @@ class ProductApi(ListCreateAPIView):
                                brand=brand,
                                gender=gender,
                                retailer=retailer)
+
+
+class SingleProductAPI(RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
