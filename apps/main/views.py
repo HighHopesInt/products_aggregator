@@ -1,8 +1,9 @@
 from django.views.generic import ListView, DetailView
-from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import get_object_or_404
 
-from apps.main.models import Category, Product
+from apps.main.models import (Category, Product, Color, Brand,
+                              Gender, Retailer)
 from apps.main.serializers import ProductSerializer
 
 
@@ -53,9 +54,18 @@ class ProductView(DetailView):
         return context
 
 
-class ProductApi(ListModelMixin, GenericAPIView):
+class ProductApi(ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        color = get_object_or_404(Color, id=self.request.data.get('color_id'))
+        brand = get_object_or_404(Brand, id=self.request.data.get('brand_id'))
+        gender = get_object_or_404(Gender,
+                                   id=self.request.data.get('gender_id'))
+        retailer = get_object_or_404(Retailer,
+                                     id=self.request.data.get('retailer_id'))
+        return serializer.save(color=color,
+                               brand=brand,
+                               gender=gender,
+                               retailer=retailer)
