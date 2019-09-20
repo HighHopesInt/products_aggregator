@@ -43,6 +43,7 @@ PACKAGES = [
     'mptt',
     'admin_numeric_filter',
     'django_admin_listfilter_dropdown',
+    'rest_framework',
 ]
 
 INSTALLED_APPS = [

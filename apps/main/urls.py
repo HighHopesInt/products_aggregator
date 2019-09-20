@@ -14,4 +14,5 @@ urlpatterns = [
             views.ProductView.as_view(),
             name='product_detail'),
 
+    path('products/', views.ProductApi.as_view()),
 ]

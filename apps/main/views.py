@@ -1,5 +1,9 @@
 from django.views.generic import ListView, DetailView
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin
+
 from apps.main.models import Category, Product
+from apps.main.serializers import ProductSerializer
 
 
 class ProductList(ListView):
@@ -47,3 +51,11 @@ class ProductView(DetailView):
         if context['object'].image_exists():
             context['exist_image'] = True
         return context
+
+
+class ProductApi(ListModelMixin, GenericAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
