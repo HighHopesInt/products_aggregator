@@ -107,20 +107,25 @@ def scraper_saks(url):
             size_product.append('')
         inter_dict['Size'].append(size_product)
 
-        inter_dict['Material'].append(bsobj_product.find(
-            'div', {'itemprop': 'description'}
-            ).find('ul').find('li').get_text().replace(' upper', ''))
-        inter_dict['Title'].append(bsobj_product.find(
-            'h1', {'class': 'product-overview__short-description'}
-            ).get_text())
+        # Site don't specifed material
+        inter_dict['Material'].append('Don\' specifed')
+
+        # Get title of product
+        title = (bsobj_product.find(
+                'h1', {'class': 'product-overview__short-description'}
+                 ).get_text())
+        title = re.sub('[^a-zA-Z0-9-_*.]', '', title)
+        inter_dict['Title'].append(title)
 
         # Get descipritons of product
         if isinstance(bsobj_product.find('div', {'itemprop':
                                                  'description'}
                                          ).contents[0], str):
-            inter_dict['Description'].append(
-                bsobj_product.find(
-                    'div', {'itemprop': 'description'}).contents[0])
+            descr = (bsobj_product.find(
+                     'div', {'itemprop': 'description'})
+                     .contents[0])
+            descr = re.sub('[^a-zA-Z0-9-_*.]', '', descr)
+            inter_dict['Description'].append(descr)
         else:
             inter_dict['Description'].append(
              'Product ' + inter_dict['Title'][index] + ' by ' +
