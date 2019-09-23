@@ -11,3 +11,5 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+broker_ci = 'amqp://'
