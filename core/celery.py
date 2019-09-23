@@ -7,6 +7,9 @@ from celery import Celery
 from decouple import config
 
 from docker_runtime import in_docker
+from core.settings_dev import broker_dev
+from core.settings_docker import broker_docker
+from core.settings_ci import broker_ci
 
 env = environ.Env()
 
@@ -16,17 +19,20 @@ docker = in_docker()
 if os.getenv('BUILD_ON_TRAVIS'):
     os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                           'core.settings_ci')
+    broker = broker_ci
 elif docker:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                           config('DOCKER_DJANGO_SETTINGS_MODULE',
                                  default='core.settings_docker'))
+    broker = broker_docker
 else:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                           config('DJANGO_SETTINGS_MODULE',
                                  default='core.settings_dev'))
+    broker = broker_dev
 
 app = Celery('core',
-             broker='amqp://',
+             broker=broker,
              include=['apps.main.tasks', 'apps.scraper.tasks'],
              backend='rpc://')
 

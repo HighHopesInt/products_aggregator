@@ -8,7 +8,7 @@ WORKDIR /home/user/
 RUN apt-get update  \ 
     && apt-get install -y git python3 python3-pip libmariadbclient-dev
 
-RUN git clone https://github.com/HighHopesInt/products_aggregator.git -b develop
+RUN git clone https://github.com/HighHopesInt/products_aggregator.git -b release-fix
 
 WORKDIR /home/user/products_aggregator/
 

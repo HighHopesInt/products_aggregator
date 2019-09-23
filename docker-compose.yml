@@ -25,3 +25,11 @@ services:
       - '5666'
     depends_on:
       - db
+      - rabbitmq
+  rabbitmq:
+      image: 'rabbitmq'
+      restart: always
+      environment:
+        RABBITMQ_DEFAULT_USER: "user"
+        RABBITMQ_DEFAULT_PASS: "password"
+        RABBITMQ_DEFAULT_VHOST: "/"
