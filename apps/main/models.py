@@ -1,10 +1,9 @@
-import re
-
 import requests
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 from apps.scraper.util_for_scraping.meta_data_for_scraping import headers
+from apps.main.utils import get_number_from_string
 
 # Create your models here.
 
@@ -102,16 +101,21 @@ class Product(models.Model):
         r = requests.get(self.image_url, headers=headers)
         return r.status_code == requests.codes.ok
 
-    def size_format(self):
-        sizes = re.findall(r'\d+', self.size)
+    def eu_size(self):
+        sizes = get_number_from_string(self.size)
         eu_sizes = []
+        for thing in sizes:
+            if int(thing) >= 25:
+                eu_sizes.append(int(thing))
+        return eu_sizes
+
+    def us_size(self):
+        sizes = get_number_from_string(self.size)
         us_sizes = []
         for thing in sizes:
             if int(thing) < 25:
                 us_sizes.append(int(thing))
-            elif int(thing) >= 25:
-                eu_sizes.append(int(thing))
-        return eu_sizes, us_sizes
+        return us_sizes
 
 
 class Retailer(BaseAttributesModel):

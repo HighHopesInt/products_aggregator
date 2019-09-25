@@ -62,11 +62,12 @@ class ProductFilter(filtres.FilterSet):
 
     class Meta:
         model = Product
-        fields = ['title',
-                  'brand', 'retailer', 'color',
-                  'material', 'available',
-                  'min_price', 'max_price',
-                  'size']
+        fields = [
+            'title',
+            'brand', 'retailer', 'color',
+            'material', 'available',
+            'min_price', 'max_price',
+        ]
 
 
 class ProductApi(ListCreateAPIView):
