@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 from apps.main.main_utils import save_file
 from apps.scraper.util_for_scraping import clear_dict
@@ -12,6 +13,8 @@ from apps.scraper.models import Site
 def crawler_saks():
     url = Site.objects.get(title='Saks').url
     site = scraper_for_saks.scraper_saks(url)
+    if not os.path.exists(str(Path.home()) + SCRAPER_DIR):
+        os.makedirs(str(Path.home()) + SCRAPER_DIR)
     save_to_csv.save_to_csv(site, str(Path.home()) + SCRAPER_DIR +
                             'saks_shoes.csv')
     clear_dict.clear(site)
@@ -21,6 +24,8 @@ def crawler_saks():
 def crawler_franco():
     url = Site.objects.get(title='Franco Sarto').url
     site = scraper_for_franco.scraper_franco(url)
+    if not os.path.exists(str(Path.home()) + SCRAPER_DIR):
+        os.makedirs(str(Path.home()) + SCRAPER_DIR)
     save_to_csv.save_to_csv(site, str(Path.home()) + SCRAPER_DIR +
                             'franco_shoes.csv')
     clear_dict.clear(site)
