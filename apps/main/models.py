@@ -79,10 +79,10 @@ class Product(models.Model):
 
     gender = models.CharField(max_length=5, choices=Gender)
 
-    size = models.CharField(max_length=100, blank=True)
+    size = models.CharField(max_length=255, blank=True)
 
-    url = models.URLField(blank=True)
-    image_url = models.URLField(blank=True)
+    url = models.URLField(blank=True, max_length=255)
+    image_url = models.URLField(blank=True, max_length=255)
 
     free_shipping = models.BooleanField()
     available = models.BooleanField()
