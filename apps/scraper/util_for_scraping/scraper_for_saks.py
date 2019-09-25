@@ -108,7 +108,7 @@ def scraper_saks(url):
         inter_dict['Size'].append(size_product)
 
         # Site don't specifed material
-        inter_dict['Material'].append('Don\' specifed')
+        inter_dict['Material'].append('-')
 
         # Get title of product
         title = (bsobj_product.find(
