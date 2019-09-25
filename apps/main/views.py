@@ -2,10 +2,11 @@ from django.views.generic import ListView, DetailView
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.generics import get_object_or_404
+from rest_framework import filters
 
 from apps.main.models import (Category, Product, Color, Brand,
                               Gender, Retailer)
-from apps.main.serializers import ProductSerializer
+from apps.main import serializers
 
 
 class ProductList(ListView):
@@ -57,7 +58,10 @@ class ProductView(DetailView):
 
 class ProductApi(ListCreateAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = serializers.ProductSerializer
+
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
 
     def perform_create(self, serializer):
         color = get_object_or_404(Color, id=self.request.data.get('color_id'))
@@ -74,4 +78,4 @@ class ProductApi(ListCreateAPIView):
 
 class SingleProductAPI(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = serializers.ProductSerializer
