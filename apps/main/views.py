@@ -1,8 +1,8 @@
+from django_filters import rest_framework as filtres
 from django.views.generic import ListView, DetailView
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.generics import get_object_or_404
-from rest_framework import filters
 
 from apps.main.models import (Category, Product, Color, Brand,
                               Gender, Retailer)
@@ -56,12 +56,24 @@ class ProductView(DetailView):
         return context
 
 
+class ProductFilter(filtres.FilterSet):
+    min_price = filtres.NumberFilter(field_name='price', lookup_expr='gte')
+    max_price = filtres.NumberFilter(field_name='price', lookup_expr='lte')
+
+    class Meta:
+        model = Product
+        fields = ['title',
+                  'brand', 'retailer', 'color',
+                  'material', 'available',
+                  'min_price', 'max_price',
+                  'size']
+
+
 class ProductApi(ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
-
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['title']
+    filter_backends = (filtres.DjangoFilterBackend,)
+    filterset_class = ProductFilter
 
     def perform_create(self, serializer):
         color = get_object_or_404(Color, id=self.request.data.get('color_id'))
