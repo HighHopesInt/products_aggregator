@@ -45,6 +45,7 @@ PACKAGES = [
     'django_admin_listfilter_dropdown',
     'rest_framework',
     'django_filters',
+    'crispy_forms',
 ]
 
 INSTALLED_APPS = [

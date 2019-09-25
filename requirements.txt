@@ -7,6 +7,7 @@ chardet==3.0.4
 Django==2.0.12
 django-admin-list-filter-dropdown==1.0.2
 django-admin-numeric-filter==0.1.4
+django-crispy-forms==1.7.2
 django-dotenv==1.4.2
 django-environ==0.4.5
 django-filter==2.2.0
