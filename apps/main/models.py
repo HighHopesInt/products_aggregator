@@ -1,9 +1,9 @@
+import re
+
 import requests
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
-from apps.main.utils import is_number, create_list, \
-    to_simple_list, width_to_size
 from apps.scraper.util_for_scraping.meta_data_for_scraping import headers
 
 # Create your models here.
@@ -103,42 +103,15 @@ class Product(models.Model):
         return r.status_code == requests.codes.ok
 
     def size_format(self):
-        size_list = self.size.split('|')
-        exist = False
-        for item in size_list:
-            if item.startswith('Width:'):
-                new_size_list = width_to_size(size_list)
-            elif '(' in item:
-                new_size_list = create_list(size_list)
-                exist = True
-            else:
-                new_size_list = size_list.copy()
-        if exist:
-            new_size_list = to_simple_list(new_size_list)
-        us_size = []
-        eu_size = []
-        for i in new_size_list:
-            i.strip()
-            if i.endswith('EU'):
-                i = i[:-2]
-                eu_size.append(i)
-            elif i.endswith('US'):
-                i = i[:-3]
-                us_size.append(i)
-            elif i.endswith('½'):
-                eu_size.append(i)
-            elif is_number(i):
-                if float(i) < 30.0:
-                    us_size.append(i)
-                else:
-                    eu_size.append(i)
-        if not us_size:
-            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size: -'
-        elif not eu_size:
-            return 'EU Size: -' + '\n' + 'US Size:' + ', '.join(us_size)
-        else:
-            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size:' \
-                   + ', '.join(us_size)
+        sizes = re.findall(r'\d+', self.size)
+        eu_sizes = []
+        us_sizes = []
+        for thing in sizes:
+            if int(thing) < 25:
+                us_sizes.append(int(thing))
+            elif int(thing) >= 25:
+                eu_sizes.append(int(thing))
+        return eu_sizes, us_sizes
 
 
 class Retailer(BaseAttributesModel):
