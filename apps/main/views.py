@@ -3,9 +3,14 @@ from django.views.generic import ListView, DetailView
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.generics import get_object_or_404
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+
 
 from apps.main.models import (Category, Product, Color, Brand,
-                              Gender, Retailer)
+                              Gender, Retailer, UploadedFile)
 from apps.main import serializers
 
 
@@ -92,3 +97,22 @@ class ProductApi(ListCreateAPIView):
 class SingleProductAPI(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
+
+
+class FileUploadApi(APIView):
+    parser_class = (FileUploadParser,)
+
+    def get(self, request):
+        files = UploadedFile.objects.all()
+        serializer = serializers.UploadFileSerialzer(files, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = serializers.UploadFileSerialzer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data,
+                            status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)

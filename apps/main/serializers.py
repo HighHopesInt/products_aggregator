@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.main.models import Product
+from apps.main.models import Product, UploadedFile
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -18,6 +18,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   'color',
                   'material',
                   'gender',
+                  'size',
                   'eu_size',
                   'us_size',
                   'url',
@@ -26,3 +27,10 @@ class ProductSerializer(serializers.ModelSerializer):
                   'available',
                   'price',
                   'sale_price',)
+
+
+class UploadFileSerialzer(serializers.ModelSerializer):
+    class Meta:
+        model = UploadedFile
+        fields = ('id',
+                  'file',)
