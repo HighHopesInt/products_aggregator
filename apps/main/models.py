@@ -107,7 +107,7 @@ class Product(models.Model):
         for thing in sizes:
             if int(thing) >= 25:
                 eu_sizes.append(int(thing))
-        return eu_sizes
+        return set(eu_sizes)
 
     def us_size(self):
         sizes = get_number_from_string(self.size)
@@ -115,7 +115,7 @@ class Product(models.Model):
         for thing in sizes:
             if int(thing) < 25:
                 us_sizes.append(int(thing))
-        return us_sizes
+        return set(us_sizes)
 
     def size_format(self):
         us_sizes = self.us_size()
