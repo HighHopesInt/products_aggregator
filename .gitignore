@@ -107,4 +107,10 @@ venv.bak/
 # pycharm
 .idea/
 
+# vscode
+.vscode
+
 media/
+
+# files for selenium
+chromedriver

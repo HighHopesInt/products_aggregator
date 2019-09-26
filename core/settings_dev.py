@@ -1,29 +1,21 @@
 #!/usr/bin/env python3
-from .settings import * # noqa
-import environ
 import os
 
-env = environ.Env()
+from decouple import config
+
+from .settings import *  # noqa
 
 
-if os.getenv('BUILD_ON_TRAVIS', False):
+if not os.getenv('BUILD_ON_TRAVIS'):
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'travis_ci_db',
-            'USER': 'travis',
-            'PASSWORD': '',
-            'HOST': '127.0.0.1',
+            'ENGINE': config('DB_ENGINE'),
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
         }
     }
-else:
-    DATABASES = {
-       'default': {
-           'ENGINE': env.str('DB_ENGINE'),
-           'NAME': env.str('DB_NAME'),
-           'USER': env.str('DB_USER'),
-           'PASSWORD': env.str('DB_PASSWORD'),
-           'HOST': env.str('DB_HOST'),
-           'PORT': env.str('DB_PORT'),
-       }
-    }
+
+broker_dev = 'amqp://'

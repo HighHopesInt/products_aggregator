@@ -1,20 +1,25 @@
 #!/usr/bin/env python
 import os
 import sys
-import dotenv
-import environ
 
-import core.settings_dev
+from decouple import config
+
+from docker_runtime import in_docker
 
 if __name__ == "__main__":
-    env = environ.Env()
     project_path = os.path.dirname(os.path.abspath(__file__))
-
-    if not os.getenv('BUILD_ON_TRAVIS'):
-        dotenv.read_dotenv(os.path.join(project_path, '.env'))
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE",
-                          env('DJANGO_SETTINGS_MODULE',
-                              default=core.settings_dev))
+    docker = in_docker()
+    if os.getenv('BUILD_ON_TRAVIS'):
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                              'core.settings_ci')
+    elif docker:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                              config('DOCKER_DJANGO_SETTINGS_MODULE',
+                                     default='core.settings_docker'))
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                              config('DJANGO_SETTINGS_MODULE',
+                                     default='core.settings_dev'))
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

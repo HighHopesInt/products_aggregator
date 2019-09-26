@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 from pathlib import Path
 
+from decouple import config
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,13 +28,14 @@ SECRET_KEY = '=g_zhmau$w=07y1k4xo)h0qdsnbga_65bjm$qa&o&ym@sds%_r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 APPS = [
     'apps.main',
+    'apps.scraper',
 ]
 
 PACKAGES = [
@@ -136,8 +139,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    str(Path.home()) + '/products_aggregator/static/',
+    BASE_DIR + '/static/',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = '/media/'
+
+SCRAPER_DIR = config('SCRAPER_DIR', default='/tmp/')

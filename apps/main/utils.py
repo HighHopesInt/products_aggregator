@@ -27,7 +27,6 @@ def create_list(size_list):
     """
     Need if meet list with '('. Remove '(' and create simple list
     :param size_list: list with '('
-    :param exist: Does exist list with '('
     :return: list without '()'
     """
     new_size_list = [i.split(' ') for i in size_list]
