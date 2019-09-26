@@ -117,6 +117,20 @@ class Product(models.Model):
                 us_sizes.append(int(thing))
         return us_sizes
 
+    def size_format(self):
+        us_sizes = self.us_size()
+        eu_sizes = self.eu_size()
+        us_sizes = ', '.join([str(elem) for elem in us_sizes])
+        eu_sizes = ', '.join([str(elem) for elem in eu_sizes])
+        if not us_sizes and eu_sizes:
+            return f'EU Sizes: {eu_sizes}\nUS Sizes: -'
+        elif us_sizes and not eu_sizes:
+            return f'EU Sizes: -\nUS Sizes: {us_sizes}'
+        elif us_sizes and eu_sizes:
+            return f'EU Sizes: {eu_sizes}\nUS Sizes: {us_sizes}'
+        else:
+            return 'EU Sizes: -\nUS Sizes: -'
+
 
 class Retailer(BaseAttributesModel):
     pass
