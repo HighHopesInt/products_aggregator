@@ -64,6 +64,18 @@ class ProductView(DetailView):
 class ProductFilter(filtres.FilterSet):
     min_price = filtres.NumberFilter(field_name='price', lookup_expr='gte')
     max_price = filtres.NumberFilter(field_name='price', lookup_expr='lte')
+    eu_size = filtres.NumberFilter(field_name='size',
+                                   method='eu_size_method',
+                                   label='EU Size')
+    us_size = filtres.NumberFilter(field_name='size',
+                                   method='eu_size_method',
+                                   label='Us Size')
+
+    def eu_size_method(self, queryset, name, value):
+        return (queryset.filter(size__gte=24).filter(size__icontains=value))
+
+    def us_size_method(self, queryset, name, value):
+        return (queryset.filter(size__gte=24).filter(size__icontains=value))
 
     class Meta:
         model = Product
@@ -72,6 +84,7 @@ class ProductFilter(filtres.FilterSet):
             'brand', 'retailer', 'color',
             'material', 'available',
             'min_price', 'max_price',
+            'eu_size', 'us_size',
         ]
 
 

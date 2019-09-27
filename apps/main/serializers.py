@@ -18,7 +18,6 @@ class ProductSerializer(serializers.ModelSerializer):
                   'color',
                   'material',
                   'gender',
-                  'size',
                   'eu_size',
                   'us_size',
                   'url',
