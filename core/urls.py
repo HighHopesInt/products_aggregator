@@ -31,6 +31,8 @@ urlpatterns = [
     path('stats/', include('apps.stats.urls')),
 
     path('api/', include('apps.main.urls')),
+
+    path('ap-auth/', include('rest_framework.urls'))
 ]
 
 urlpatterns += staticfiles_urlpatterns() + \
