@@ -111,3 +111,6 @@ venv.bak/
 .vscode
 
 media/
+
+# files for selenium
+chromedriver

@@ -12,7 +12,9 @@ path_to_driver = str(Path.home()) + '/driver/chromedriver'
 
 def open_browser():
     options = webdriver.ChromeOptions()
-    options.add_argument('headless')
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
     browser = webdriver.Chrome(chrome_options=options,
                                executable_path=path_to_driver)
     return browser
@@ -108,19 +110,21 @@ def scraper_franco(url):
 
         # Get descriptions of product
         inter_dict['Description'].append(
-            bs_product.find('span', {'itemprop': 'description'}
-                            ).find('p').get_text())
+            bs_product.find('span', {'itemprop': 'description'})
+            .find('p').get_text().split('.')[0])
         inter_dict['Meta Description'].append(
             'Buy ' + inter_dict['Description'][index] +
             'on ' + inter_dict['Material'][index])
-        inter_dict['Short Description'].append(
-            'Product ' + inter_dict['Title'][index] + ' by ' +
-            inter_dict['Brand'][index] + ' on ' +
-            inter_dict['Color'][index])
 
         inter_dict['Title'].append(
             bs_product.find('span', {'itemprop': 'name'}).get_text()
             .strip())
+
+        # Get short description of product
+        inter_dict['Short Description'].append(
+            'Product ' + inter_dict['Title'][index] + ' by ' +
+            inter_dict['Brand'][index] + ' on ' +
+            inter_dict['Color'][index])
 
         # Meta title equal main title
         inter_dict['Meta Title'] = (
