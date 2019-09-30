@@ -30,7 +30,7 @@ urlpatterns = [
 
     path('stats/', include('apps.stats.urls')),
 
-    path('api/', include('apps.main.urls')),
+    path('api/', include('apps.main.api_urls')),
 
     path('ap-auth/', include('rest_framework.urls'))
 ]
