@@ -4,9 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.parsers import FileUploadParser
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status, permissions
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 
 
 from apps.main.models import (Category, Product, Color, Brand,
@@ -93,7 +91,7 @@ class ProductApi(ListCreateAPIView):
     serializer_class = serializers.ProductSerializer
     filter_backends = (filtres.DjangoFilterBackend,)
     filterset_class = ProductFilter
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def perform_create(self, serializer):
         category = get_object_or_404(Category,
@@ -111,24 +109,14 @@ class ProductApi(ListCreateAPIView):
 class SingleProductAPI(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
-class FileUploadApi(APIView):
+class FileUploadApi(ListCreateAPIView):
+    queryset = UploadedFile.objects.all()
+    serializer_class = serializers.UploadFileSerialzer
     parser_class = (FileUploadParser,)
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
-    def get(self, request):
-        files = UploadedFile.objects.all()
-        serializer = serializers.UploadFileSerialzer(files, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, *args, **kwargs):
-        file_serializer = serializers.UploadFileSerialzer(data=request.data)
-        if file_serializer.is_valid():
-            file_serializer.save()
-            return Response(file_serializer.data,
-                            status=status.HTTP_201_CREATED)
-        else:
-            return Response(file_serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        return serializer.save()
