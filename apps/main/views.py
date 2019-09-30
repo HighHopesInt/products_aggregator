@@ -1,16 +1,16 @@
 from django_filters import rest_framework as filtres
 from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
-from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, permissions
 
 
 from apps.main.models import (Category, Product, Color, Brand,
-                              Gender, Retailer, UploadedFile)
+                              Retailer, UploadedFile)
 from apps.main import serializers
 
 
@@ -75,7 +75,7 @@ class ProductFilter(filtres.FilterSet):
         return (queryset.filter(size__gte=24).filter(size__icontains=value))
 
     def us_size_method(self, queryset, name, value):
-        return (queryset.filter(size__gte=24).filter(size__icontains=value))
+        return (queryset.filter(size__gte=8).filter(size__icontains=value))
 
     class Meta:
         model = Product
@@ -93,27 +93,30 @@ class ProductApi(ListCreateAPIView):
     serializer_class = serializers.ProductSerializer
     filter_backends = (filtres.DjangoFilterBackend,)
     filterset_class = ProductFilter
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        color = get_object_or_404(Color, id=self.request.data.get('color_id'))
-        brand = get_object_or_404(Brand, id=self.request.data.get('brand_id'))
-        gender = get_object_or_404(Gender,
-                                   id=self.request.data.get('gender_id'))
+        category = get_object_or_404(Category,
+                                     id=self.request.data.get('category'))
+        color = get_object_or_404(Color, id=self.request.data.get('color'))
+        brand = get_object_or_404(Brand, id=self.request.data.get('brand'))
         retailer = get_object_or_404(Retailer,
-                                     id=self.request.data.get('retailer_id'))
-        return serializer.save(color=color,
+                                     id=self.request.data.get('retailer'))
+        return serializer.save(category=category,
+                               color=color,
                                brand=brand,
-                               gender=gender,
                                retailer=retailer)
 
 
 class SingleProductAPI(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class FileUploadApi(APIView):
     parser_class = (FileUploadParser,)
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         files = UploadedFile.objects.all()
