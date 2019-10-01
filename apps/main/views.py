@@ -1,4 +1,4 @@
-from django_filters import rest_framework as filtres
+from django_filters import rest_framework as filters
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import (ListCreateAPIView,
@@ -59,14 +59,14 @@ class ProductView(DetailView):
         return context
 
 
-class ProductFilter(filtres.FilterSet):
-    min_price = filtres.NumberFilter(field_name='price', lookup_expr='gte')
-    max_price = filtres.NumberFilter(field_name='price', lookup_expr='lte')
-    eu_size = filtres.NumberFilter(field_name='size',
+class ProductFilter(filters.FilterSet):
+    min_price = filters.NumberFilter(field_name='price', lookup_expr='gte')
+    max_price = filters.NumberFilter(field_name='price', lookup_expr='lte')
+    eu_size = filters.NumberFilter(field_name='size',
                                    method='eu_size_method',
                                    label='EU Size')
-    us_size = filtres.NumberFilter(field_name='size',
-                                   method='eu_size_method',
+    us_size = filters.NumberFilter(field_name='size',
+                                   method='us_size_method',
                                    label='Us Size')
 
     def eu_size_method(self, queryset, name, value):
@@ -89,7 +89,7 @@ class ProductFilter(filtres.FilterSet):
 class ProductApi(ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
-    filter_backends = (filtres.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ProductFilter
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
