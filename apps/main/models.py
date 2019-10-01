@@ -2,9 +2,8 @@ import requests
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
-from apps.main.utils import is_number, create_list, \
-    to_simple_list, width_to_size
 from apps.scraper.util_for_scraping.meta_data_for_scraping import headers
+from apps.main.utils import get_number_from_string
 
 # Create your models here.
 
@@ -102,43 +101,35 @@ class Product(models.Model):
         r = requests.get(self.image_url, headers=headers)
         return r.status_code == requests.codes.ok
 
+    def eu_size(self):
+        sizes = get_number_from_string(self.size)
+        eu_sizes = []
+        for thing in sizes:
+            if int(thing) >= 25:
+                eu_sizes.append(int(thing))
+        return set(eu_sizes)
+
+    def us_size(self):
+        sizes = get_number_from_string(self.size)
+        us_sizes = []
+        for thing in sizes:
+            if int(thing) < 25:
+                us_sizes.append(int(thing))
+        return set(us_sizes)
+
     def size_format(self):
-        size_list = self.size.split('|')
-        exist = False
-        for item in size_list:
-            if item.startswith('Width:'):
-                new_size_list = width_to_size(size_list)
-            elif '(' in item:
-                new_size_list = create_list(size_list)
-                exist = True
-            else:
-                new_size_list = size_list.copy()
-        if exist:
-            new_size_list = to_simple_list(new_size_list)
-        us_size = []
-        eu_size = []
-        for i in new_size_list:
-            i.strip()
-            if i.endswith('EU'):
-                i = i[:-2]
-                eu_size.append(i)
-            elif i.endswith('US'):
-                i = i[:-3]
-                us_size.append(i)
-            elif i.endswith('½'):
-                eu_size.append(i)
-            elif is_number(i):
-                if float(i) < 30.0:
-                    us_size.append(i)
-                else:
-                    eu_size.append(i)
-        if not us_size:
-            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size: -'
-        elif not eu_size:
-            return 'EU Size: -' + '\n' + 'US Size:' + ', '.join(us_size)
+        us_sizes = self.us_size()
+        eu_sizes = self.eu_size()
+        us_sizes = ', '.join([str(elem) for elem in us_sizes])
+        eu_sizes = ', '.join([str(elem) for elem in eu_sizes])
+        if not us_sizes and eu_sizes:
+            return f'EU Sizes: {eu_sizes}\nUS Sizes: -'
+        elif us_sizes and not eu_sizes:
+            return f'EU Sizes: -\nUS Sizes: {us_sizes}'
+        elif us_sizes and eu_sizes:
+            return f'EU Sizes: {eu_sizes}\nUS Sizes: {us_sizes}'
         else:
-            return 'EU Size:' + ', '.join(eu_size) + '\n' + 'US Size:' \
-                   + ', '.join(us_size)
+            return 'EU Sizes: -\nUS Sizes: -'
 
 
 class Retailer(BaseAttributesModel):

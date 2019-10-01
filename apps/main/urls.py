@@ -13,5 +13,4 @@ urlpatterns = [
     re_path(r'^detail/(?P<pk>\d+)/$',
             views.ProductView.as_view(),
             name='product_detail'),
-
 ]

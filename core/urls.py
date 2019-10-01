@@ -29,7 +29,11 @@ urlpatterns = [
     path('scraper/', include('apps.scraper.urls')),
 
     path('stats/', include('apps.stats.urls')),
+
+    path('api/', include('apps.api.urls')),
+
+    path('ap-auth/', include('rest_framework.urls'))
 ]
 
 urlpatterns += staticfiles_urlpatterns() + \
-               static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

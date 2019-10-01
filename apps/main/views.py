@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView
+
 from apps.main.models import Category, Product
 
 
