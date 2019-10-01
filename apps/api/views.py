@@ -22,10 +22,12 @@ class ProductFilter(filters.FilterSet):
                                    label='Us Size')
 
     def eu_size_method(self, queryset, name, value):
-        return (queryset.filter(size__gte=24).filter(size__icontains=value))
+        return (queryset.filter(size__gte=24).filter(size__lte=45)
+                .filter(size__icontains=value))
 
     def us_size_method(self, queryset, name, value):
-        return (queryset.filter(size__gte=8).filter(size__icontains=value))
+        return (queryset.filter(size__gte=8).filter(size__lte=16)
+                .filter(size__icontains=value))
 
     class Meta:
         model = Product
