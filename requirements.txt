@@ -3,7 +3,7 @@ billiard==3.5.0.5
 celery==4.1.1
 certifi==2019.6.16
 chardet==3.0.4
-Django==2.0.12
+Django==2.2.10
 django-admin-list-filter-dropdown==1.0.2
 django-admin-numeric-filter==0.1.4
 django-dotenv==1.4.2
