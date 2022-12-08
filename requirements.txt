@@ -1,7 +1,7 @@
 amqp==2.5.0
 billiard==3.5.0.5
 celery==4.1.1
-certifi==2019.6.16
+certifi==2022.12.7
 chardet==3.0.4
 Django==2.0.12
 django-admin-list-filter-dropdown==1.0.2
